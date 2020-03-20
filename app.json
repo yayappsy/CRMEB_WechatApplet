@@ -45,6 +45,7 @@
     "pages/order_cancellation/index",
     "pages/commission_rank/index",
     "pages/promoter_rank/index",
+    "pages/messages/message",
     "components/navbar/index",
     "components/recommend/index",
     "components/share-red-packets/index",

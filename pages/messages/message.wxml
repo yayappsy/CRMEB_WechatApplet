@@ -1,0 +1,49 @@
+<navbar parameter='{{parameter}}'></navbar>
+<view class="container"> 
+  <scroll-view scroll-y="true" class="history" scroll-top="{{scrollTop}}">
+
+    <block wx:for="{{histMessage}}" wx:key>
+      <view class="chat-date">{{item.date}}</view>
+      <!--my message -->
+      <view class="chat-news" wx:if="{{item.nickName == userInfo.nickName}}">
+        <view style="text-align: right;padding-right: 20rpx;" bindtap='showUserDetail'>
+          <text class="name"></text>
+          <image class='new_img' src="{{item.avatar}}"></image>
+        </view>
+        <view class='my_right'>
+          <block wx:if="{{item.type=='text'}}">
+            <view class='new_txt'>{{item.content}}</view>
+          </block>
+          <block wx:if="{{item.type=='image'}}">
+            <image class="selectImg" src="{{item.images}}" data-src="{{item.images}}" lazy-load="true" bindtap="previewImg"></image>
+          </block>
+           <block wx:if="{{item.type=='vedio'}}">
+            <!--pendin: 如果是视频，点击可播放视频-->
+          </block>
+           <block wx:if="{{item.type=='voice'}}">
+            <!--pendin: 如果是声音，点击可播放声音-->
+          </block>
+           <block wx:if="{{item.type=='link'}}">
+            <!--pendin: 如果是链接，点击转到相应url-->
+          </block>
+        </view>
+      </view>
+      <!-- message from other -->
+      <view class="chat-news" wx:else>
+        <view style="text-align: left;padding-left: 20rpx;" bindtag='showUserDetail'>
+          <image class='new_img' src="{{item.avatar}}"></image>
+          <text class="name">{{ item.nickName }}</text>
+        </view>
+        <view class='you_left'>
+          <block wx:if="{{item.type=='text'}}">
+            <view class='new_txt'>{{item.content}}</view>
+          </block>
+          <block wx:if="{{item.type=='image'}}">
+            <image class="selectImg" src="{{item.images}}" data-src="{{item.images}}" lazy-load="true" bindtap="previewImg"></image>
+          </block>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+</view>
+<view id="flag"></view>
