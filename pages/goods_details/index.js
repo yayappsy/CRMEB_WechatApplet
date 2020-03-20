@@ -82,8 +82,12 @@ Page({
   getUserInfo: function(){
     var that=this;
     getUserInfo().then(res=>{
+      let isState = true;
+      if ((res.data.is_promoter || res.data.statu == 2) && this.data.sharePacket.priceName > 0){
+        isState = false;
+      }
       that.setData({ 
-        'sharePacket.isState': res.data.is_promoter && this.data.sharePacket.priceName > 0 ? false : true, 
+        'sharePacket.isState': isState, 
         uid: res.data.uid 
       });
     });

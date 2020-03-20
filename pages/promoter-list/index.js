@@ -26,6 +26,7 @@ Page({
     sort:'',
     grade:0,
     status: false,
+    loading: false,
     recordList:[],
   },
 
@@ -100,6 +101,8 @@ Page({
     var recordList = that.data.recordList;
     var recordListNew = [];
     if (status == true) return;
+    if (that.data.loading) return;
+    that.setData({loading:true});
     spreadPeople({
       page: page,
       limit: limit,
@@ -115,9 +118,12 @@ Page({
         totalLevel: res.data.totalLevel,
         teamCount: Number(res.data.total) + Number(res.data.totalLevel),
         status: limit > len,
-        page: limit + page,
+        page: page + 1,
+        loading: false,
         recordList: recordListNew
       });
+    }).catch(res=>{
+      that.setData({loading:false});
     });
   },
   /**
