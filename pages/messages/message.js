@@ -1,7 +1,7 @@
 // pages/messages/message.js
 import { getUserInfo, userActivity } from '../../api/user.js';
-import { WSS_SERVER_URL, HEADER, SERVER_DEBUG, PINGINTERVAL} from '../../config.js';
 
+var websocket = require('../../utils/websocket.js');
 const app = getApp();
 
 Page({
@@ -25,7 +25,6 @@ Page({
     previewImgList: [],
     increase: false,
     aniStyle: true,
-    chat: {},
     ctx: {},
   },
 
@@ -68,7 +67,7 @@ Page({
    */
   showUserDetail: function () {
     wx.navigateTo({
-      url: '../details/detail'
+      url: '../user_details/detail'
     })
   },
 
@@ -129,7 +128,7 @@ Page({
                 increase: false
               })
               // 数据同步后端，更新到数据库
-              that.data.chat.send(that.data.curMessage)
+              websocket.send(that.data.curMessage)
               that.bottom()
             }
           }
@@ -159,7 +158,7 @@ Page({
                 increase: false
               })
               // 数据同步后端，更新到数据库
-              that.data.chat.send(that.data.curMessage)
+              websocket.send(that.data.curMessage)
               that.bottom()
             }
           }
@@ -193,7 +192,7 @@ Page({
                 increase: false
               })
               // 数据同步后端，更新到数据库
-              that.data.chat.send(that.data.curMessage)
+              websocket.send(that.data.curMessage)
               that.bottom()
             }
           }
@@ -224,10 +223,19 @@ Page({
     if (app.globalData.userInfo) {
       that.setData({
         userInfo: app.globalData.userInfo,
-        chat:app.$chat,
         ctx: wx.createCameraContext()
       })
     }
+    //调通接口
+    websocket.connect(this.data.userInfo, function (res) {
+    // console.log(JSON.parse(res.data))
+      var list = []
+      list = that.data.histMessage
+      list.push(JSON.parse(res.data))
+      that.setData({
+        histMessage: list
+      })
+    })
   },
 
   /**
@@ -255,7 +263,12 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    wx.closeSocket();
+    wx.showToast({
+      title: '连接已断开~',
+      icon: "none",
+      duration: 2000
+    })
   },
 
   /**
