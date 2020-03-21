@@ -1,12 +1,11 @@
 <navbar parameter='{{parameter}}'></navbar>
-<view class="container"> 
+<view class="container">
   <scroll-view scroll-y="true" class="history" scroll-top="{{scrollTop}}">
-
+   
     <block wx:for="{{histMessage}}" wx:key>
-      <view class="chat-date">{{item.date}}</view>
-      <!--my message -->
+      <!--自己的消息 -->
       <view class="chat-news" wx:if="{{item.nickName == userInfo.nickName}}">
-        <view style="text-align: right;padding-right: 20rpx;" bindtap='showUserDetail'>
+        <view style="text-align: right;padding-right: 20rpx;" bindtap='getUserInfo'>
           <text class="name"></text>
           <image class='new_img' src="{{item.avatar}}"></image>
         </view>
@@ -17,18 +16,18 @@
           <block wx:if="{{item.type=='image'}}">
             <image class="selectImg" src="{{item.images}}" data-src="{{item.images}}" lazy-load="true" bindtap="previewImg"></image>
           </block>
-           <block wx:if="{{item.type=='vedio'}}">
-            <!--pendin: 如果是视频，点击可播放视频-->
+          <block wx:if="{{item.type=='video'}}">
+            <!--如果消息是视频，则可播放-->
           </block>
-           <block wx:if="{{item.type=='voice'}}">
-            <!--pendin: 如果是声音，点击可播放声音-->
+           <block wx:if="{{item.type=='voice''}}">
+            <!--如果消息是语音，则可播放-->
           </block>
            <block wx:if="{{item.type=='link'}}">
-            <!--pendin: 如果是链接，点击转到相应url-->
+            <!--如果消息是链接，则可点击-->
           </block>
         </view>
       </view>
-      <!-- message from other -->
+      <!-- 别人的消息 -->
       <view class="chat-news" wx:else>
         <view style="text-align: left;padding-left: 20rpx;" bindtag='showUserDetail'>
           <image class='new_img' src="{{item.avatar}}"></image>
@@ -47,3 +46,23 @@
   </scroll-view>
 </view>
 <view id="flag"></view>
+<!-- 聊天输入 -->
+<view class="message">
+  <form bindreset="cleanInput" class="sendMessage">
+    <!-- 暂不实现语音聊天，布局格式比较丑，得完善>
+    <view class="sendVoice" bindtap='sendVoice'>hh
+      <image class="voiceIcon" src="../../images/vacancy.png"></image>
+    </view>
+    <-->
+    <input type="text" placeholder="请输入聊天内容.." value="{{massage}}" bindinput='bindChange'></input>
+    <view class="emoji" bindtap="chooseEmoji"><image class="emojiImg" src="../../images/vacancy.png"></image></view>
+    <view class="add" bindtap='increase' wx:if="{{!increase}}">+</view>
+    <button type="primary" bindtap='send' formType="reset" size="small" button-hover="blue" wx:else>发送</button>
+  </form>
+  <view class='increased {{aniStyle?"slideup":"slidedown"}}' style="display:flex;flex-direction:row;" wx:if="{{increase}}">
+    <view class="image" bindtap='shareGoodLink'>宝贝</view>
+    <view class="image" bindtap='chooseImage'>相册</view>
+    <view class="image" bindtap='takePicture'>拍照</view>
+    <view class="image" bindtap='chooseVideo'>视频</view>
+  </view>
+</view>

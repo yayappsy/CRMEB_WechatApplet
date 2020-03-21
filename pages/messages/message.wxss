@@ -1,4 +1,3 @@
-/* pages/messages/message.wxss */
 page {
 background-color: #f7f7f7;
 height: 100%;
@@ -146,6 +145,11 @@ text-align: center;
 border-radius: 8rpx;
 font-size:35rpx;
 }
+.emoji{
+  float: right;
+
+}
+
 @keyframes slidedown {
 from {
 transform: translateY(0);

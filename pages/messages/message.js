@@ -13,24 +13,39 @@ Page({
     parameter: {
       'navbar': '1',
       'return': '1',
-      'title': '',
+      'title': '',    //此处应设为对话时对方昵称
       'color': false
     },
-    userInfo: {},
+    scrollTop: 0,
+
+    //newsList 对话数据，包含user，id，avatar,type等等,此数据在app加载时，读取，并且实时消息应同步到数据库
     histMessage: [],
-    curMessage: "",
-    chat:null
+    curMessage: '',
+    userInfo: {},
+    previewImgList: [],
+    increase: false,
+    aniStyle: true,
+    chat: {},
+    ctx: {},
   },
 
-  /*
-  *聊天图片点击查看
+  /**
+  * 返回上一界面
+  */
+  return: function () {
+    wx.navigateBack();
+  },
+
+  /**
+  * 图片预览
   */
   previewImg: function (e) {
     var that = this
+    console.log(e)
     var res = e.target.dataset.src
-    var list = this.data.previewImgList
+    var list = that.data.previewImgList
     if (list.indexOf(res) == -1) {
-      this.data.previewImgList.push(res)
+      that.data.previewImgList.push(res)
     }
     wx.previewImage({
       current: res,
@@ -38,7 +53,28 @@ Page({
     })
   },
 
-  //事件处理函数--消息发送函数
+  /** 
+  * 聊天界面点+展开
+  */
+  increase() {
+    this.setData({
+      increase: true,
+      aniStyle: true
+    })
+  },
+
+  /**
+   * 点击头像，详情界面
+   */
+  showUserDetail: function () {
+    wx.navigateTo({
+      url: '../details/detail'
+    })
+  },
+
+  /**
+   * 发送文字
+   */
   send: function () {
     var that = this
     if (that.data.message.trim() == "") {
@@ -53,23 +89,30 @@ Page({
           increase: false
         })
       }, 500)
-      chat.connectSocket()
-      chat.send('{ "content": "' + this.data.message + '","type":"text", "nickName": "' + this.data.userInfo.nickName + '", "avatar": "' + this.data.userInfo.avatar + '" }')
+      that.chat.send('{ "content": "' + this.data.message + '", "date": "' + utils.formatTime(new Date()) + '","type":"text", "nickName": "' + this.data.userInfo.nickName + '", "avatarUrl": "' + this.data.userInfo.avatarUrl + '" }')
       that.bottom()
     }
   },
-
-  //发送图片
-  chooseImage() {
+  /**
+   * 发送商品链接
+   */
+  shareGoodLink: function () {
+    this.data.chat.send('{"images":"' + res.data + '","date":"' + new Date() + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
+    this.bottom()
+  },
+  /**
+   * 打开相册选择图片
+   */
+  chooseImage: function () {
     var that = this
     wx.chooseImage({
-      count: 1, // 默认9
+      count: 1, // 默认9,
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         var tempFilePaths = res.tempFilePaths
-        // console.log(tempFilePaths)
+        console.log(tempFilePaths)
         wx.uploadFile({
           url: WSS_SERVER_URL, //服务器地址
           filePath: tempFilePaths[0],
@@ -80,7 +123,37 @@ Page({
               that.setData({
                 increase: false
               })
-              chat.send('{"images":"' + res.data + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
+              // 数据同步后端，更新到数据库
+              that.data.chat.send('{"images":"' + res.data + '","date":"' + new Date() + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
+              that.bottom()
+            }
+          }
+        })
+      }
+    })
+  },
+  /**
+   * 拍照
+   */
+  takePicture: function () {
+    var that = this
+    that.data.ctx.takePhoto({
+      quality: 'high',
+      success: (res) => {
+        var tempFilePaths = res.tempFilePaths
+        console.log(tempFilePaths)
+        wx.uploadFile({
+          url: WSS_SERVER_URL, //服务器地址
+          filePath: tempFilePaths[0],
+          name: 'file',
+          headers: HEADER,
+          success: function (res) {
+            if (res.data) {
+              that.setData({
+                increase: false
+              })
+              // 数据同步后端，更新到数据库
+              that.data.chat.send('{"images":"' + res.data + '","date":"' + new Date() + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
               that.bottom()
             }
           }
@@ -89,6 +162,40 @@ Page({
     })
   },
 
+  /**
+   * 发送视频
+   */
+  chooseVideo: function () {
+    var that = this
+    wx.chooseImage({
+      sourceType: ['album', 'camera'],
+      maxDuration: 60,
+      camera: 'back',
+      success: function (res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        var tempFilePaths = res.tempFilePaths
+        console.log(tempFilePaths)
+        wx.uploadFile({
+          url: WSS_SERVER_URL, //服务器地址
+          filePath: tempFilePaths[0],
+          name: 'file',
+          headers: HEADER,
+          success: function (res) {
+            if (res.data) {
+              that.setData({
+                increase: false
+              })
+              // 数据同步后端，更新到数据库
+              that.data.chat.send('{"images":"' + res.data + '","date":"' + new Date() + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
+              that.bottom()
+            }
+          }
+        })
+      }
+    })
+  },
+
+  //聊天消息始终显示最底端
   bottom: function () {
     var query = wx.createSelectorQuery()
     query.select('#flag').boundingClientRect()
@@ -101,6 +208,7 @@ Page({
     })
   },
 
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -109,7 +217,8 @@ Page({
     if (app.globalData.userInfo) {
       that.setData({
         userInfo: app.globalData.userInfo,
-        chat:app.$chat
+        chat:app.$chat,
+        ctx: wx.createCameraContext()
       })
     }
   },
