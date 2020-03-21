@@ -20,7 +20,7 @@ Page({
 
     //newsList 对话数据，包含user，id，avatar,type等等,此数据在app加载时，读取，并且实时消息应同步到数据库
     histMessage: [],
-    curMessage: '',
+    curMessage: {},
     userInfo: {},
     previewImgList: [],
     increase: false,
@@ -77,7 +77,7 @@ Page({
    */
   send: function () {
     var that = this
-    if (that.data.message.trim() == "") {
+    if (that.data.curMessage == {}) {
       wx.showToast({
         title: '消息不能为空哦~',
         icon: "none",
@@ -86,10 +86,11 @@ Page({
     } else {
       setTimeout(function () {
         that.setData({
-          increase: false
+          that.data.histMessage.push(that.data.curMessage)，
+          increase: false,
         })
       }, 500)
-      that.chat.send('{ "content": "' + this.data.message + '", "date": "' + utils.formatTime(new Date()) + '","type":"text", "nickName": "' + this.data.userInfo.nickName + '", "avatarUrl": "' + this.data.userInfo.avatarUrl + '" }')
+      that.chat.send(that.data.curMessage)
       that.bottom()
     }
   },
@@ -97,7 +98,10 @@ Page({
    * 发送商品链接
    */
   shareGoodLink: function () {
-    this.data.chat.send('{"images":"' + res.data + '","date":"' + new Date() + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
+    this.setData({
+      that.data.histMessage.push(that.data.curMessage)
+    })
+    this.data.chat.send(this.data.curMessage)
     this.bottom()
   },
   /**
@@ -121,10 +125,11 @@ Page({
           success: function (res) {
             if (res.data) {
               that.setData({
+                that.data.histMessage.push(that.data.curMessage),
                 increase: false
               })
               // 数据同步后端，更新到数据库
-              that.data.chat.send('{"images":"' + res.data + '","date":"' + new Date() + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
+              that.data.chat.send(that.data.curMessage)
               that.bottom()
             }
           }
@@ -150,10 +155,11 @@ Page({
           success: function (res) {
             if (res.data) {
               that.setData({
+                that.data.histMessage.push(that.data.curMessage)，
                 increase: false
               })
               // 数据同步后端，更新到数据库
-              that.data.chat.send('{"images":"' + res.data + '","date":"' + new Date() + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
+              that.data.chat.send(that.data.curMessage)
               that.bottom()
             }
           }
@@ -183,10 +189,11 @@ Page({
           success: function (res) {
             if (res.data) {
               that.setData({
+                that.data.histMessage.push(that.data.curMessage)，
                 increase: false
               })
               // 数据同步后端，更新到数据库
-              that.data.chat.send('{"images":"' + res.data + '","date":"' + new Date() + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}')
+              that.data.chat.send(that.data.curMessage)
               that.bottom()
             }
           }
