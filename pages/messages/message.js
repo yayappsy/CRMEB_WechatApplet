@@ -20,7 +20,7 @@ Page({
 
     //newsList 对话数据，包含user，id，avatar,type等等,此数据在app加载时，读取，并且实时消息应同步到数据库
     histMessage: [],
-    curMessage: {},
+    curMessage: '',
     userInfo: {},
     previewImgList: [],
     increase: false,
@@ -85,6 +85,13 @@ Page({
     } else {
       setTimeout(function () {
         that.setData({
+          curMessage: {
+            "content": res.data,
+            "date":new Date(),
+            "type":"text",
+            "nickName":that.data.userInfo.nickName,
+            "avatarUrl":that.data.userInfo.avatar
+          },
           that.data.histMessage.push(that.data.curMessage)，
           increase: false,
         })
@@ -98,9 +105,17 @@ Page({
    */
   shareGoodLink: function () {
     this.setData({
+      curMessage: {
+        "content": res.data,
+        "date":new Date(),
+        "type":"link",
+        "nickName":that.data.userInfo.nickName,
+        "avatarUrl":that.data.userInfo.avatar
+      },
+      //curMessage 应该转换为json字符串，放到histMessage?
       that.data.histMessage.push(that.data.curMessage)
     })
-    this.data.chat.send(this.data.curMessage)
+    websocket.send(this.data.curMessage)
     this.bottom()
   },
   /**
@@ -124,6 +139,8 @@ Page({
           success: function (res) {
             if (res.data) {
               that.setData({
+                curMessage:'{"content":"' + res.data + '","date":"' + (new Date()) + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}',
+                //curMessage 应该转换为json字符串，放到histMessage?
                 that.data.histMessage.push(that.data.curMessage),
                 increase: false
               })
@@ -154,6 +171,8 @@ Page({
           success: function (res) {
             if (res.data) {
               that.setData({
+                curMessage: '{"content":"' + res.data + '","date":"' + (new Date()) + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}',
+                //curMessage 应该转换为json字符串，放到histMessage?
                 that.data.histMessage.push(that.data.curMessage)，
                 increase: false
               })
@@ -188,6 +207,8 @@ Page({
           success: function (res) {
             if (res.data) {
               that.setData({
+                curMessage:'{"content":"' + res.data + '","date":"' + (new Date()) + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}',
+                //curMessage 应该转换为json字符串，放到histMessage?
                 that.data.histMessage.push(that.data.curMessage)，
                 increase: false
               })

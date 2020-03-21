@@ -61,7 +61,8 @@
     "components/coupon-list-window/index",
     "components/address-window/index",
     "components/home/index",
-    "components/write-off/index"
+    "components/write-off/index",
+    "components/emoji/emoji"
   ],
   "subPackages": [
     {
