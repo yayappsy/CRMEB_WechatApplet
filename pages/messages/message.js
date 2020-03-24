@@ -26,8 +26,86 @@ Page({
     increase: false,
     aniStyle: true,
     ctx: {},
+    currentTab: 0,//顶部当前索引
+    focusFlag: false,//控制输入框失去焦点与否
+    emojiFlag: false,//emoji键盘标志位
+    inputValue: '', // 发送的文本内容
+
   },
 
+  //音频播放  
+  audioPlay(e) {
+    var that = this,
+      id = e.currentTarget.dataset.id,
+      key = e.currentTarget.dataset.key,
+      audioArr = that.data.audioArr;
+  
+    //设置状态
+    audioArr.forEach((v, i, array) => {
+      v.bl = false;
+      if (i == key) {
+        v.bl = true;
+      }
+    })
+    that.setData({
+      audioArr: audioArr,
+      audKey: key,
+    })
+
+    myaudio.autoplay = true;
+    var audKey = that.data.audKey,
+        vidSrc = audioArr[audKey].src;
+    myaudio.src = vidSrc;
+    
+    myaudio.play();
+
+    //开始监听
+    myaudio.onPlay(() => {
+      console.log('开始播放');
+    })
+
+    //结束监听
+    myaudio.onEnded(() => {
+      console.log('自动播放完毕');
+      audioArr[key].bl = false;
+      that.setData({
+        audioArr: audioArr,
+      })
+    })
+
+    //错误回调
+    myaudio.onError((err) => {
+      console.log(err); 
+      audioArr[key].bl = false;
+      that.setData({
+        audioArr: audioArr,
+      })
+      return
+    })
+
+  },
+
+  // 音频停止
+  audioStop(e){
+    var that = this,
+      key = e.currentTarget.dataset.key,
+      audioArr = that.data.audioArr;
+    //设置状态
+    audioArr.forEach((v, i, array) => {
+      v.bl = false;
+    })
+    that.setData({
+      audioArr: audioArr
+    })
+
+    myaudio.stop();
+
+    //停止监听
+    myaudio.onStop(() => {
+      console.log('停止播放');
+    })
+
+  }, 
   /**
   * 返回上一界面
   */
@@ -52,16 +130,6 @@ Page({
     })
   },
 
-  /** 
-  * 聊天界面点+展开
-  */
-  increase() {
-    this.setData({
-      increase: true,
-      aniStyle: true
-    })
-  },
-
   /**
    * 点击头像，详情界面
    */
@@ -74,7 +142,7 @@ Page({
   /**
    * 发送文字
    */
-  send: function () {
+  inputSend: function () {
     var that = this
     if (that.data.curMessage == {}) {
       wx.showToast({
@@ -92,7 +160,7 @@ Page({
             "nickName":that.data.userInfo.nickName,
             "avatarUrl":that.data.userInfo.avatar
           },
-          that.data.histMessage.push(that.data.curMessage)，
+          that.data.histMessage.push(that.data.curMessage),
           increase: false,
         })
       }, 500)
@@ -173,7 +241,7 @@ Page({
               that.setData({
                 curMessage: '{"content":"' + res.data + '","date":"' + (new Date()) + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}',
                 //curMessage 应该转换为json字符串，放到histMessage?
-                that.data.histMessage.push(that.data.curMessage)，
+                that.data.histMessage.push(that.data.curMessage),
                 increase: false
               })
               // 数据同步后端，更新到数据库
@@ -209,7 +277,7 @@ Page({
               that.setData({
                 curMessage:'{"content":"' + res.data + '","date":"' + (new Date()) + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}',
                 //curMessage 应该转换为json字符串，放到histMessage?
-                that.data.histMessage.push(that.data.curMessage)，
+                that.data.histMessage.push(that.data.curMessage),
                 increase: false
               })
               // 数据同步后端，更新到数据库
@@ -222,20 +290,98 @@ Page({
     })
   },
 
+  choosePosition: function() {
+
+  },
   //聊天消息始终显示最底端
   bottom: function () {
-    var query = wx.createSelectorQuery()
-    query.select('#flag').boundingClientRect()
-    query.selectViewport().scrollOffset()
-    query.exec(function (res) {
-      wx.pageScrollTo({
-        scrollTop: res[0].bottom // #the-id节点的下边界坐标
-      })
-      res[1].scrollTop // 显示区域的竖直滚动位置
+    var that = this
+    wx.createSelectorQuery().select('#recordWrapper').boundingClientRect(function (rect) {
+      if (rect.bottom > that.data.messageWrapperMaxHeight) {
+        that.setData({
+          scrollTop: 999999
+        })
+      }
+    }).exec()
+  },
+
+  /**
+   * 输入事件
+   */
+  inputChange(e) {
+    this.setData({
+      inputValue: e.detail.value
+    })
+  },
+  /**
+   * 获取焦点
+   */
+  inputFocus(e) {
+    this.setData({
+      emojiFlag: false,
+      focusFlag: true
     })
   },
 
-
+  /**
+  * 失去焦点
+  */
+  inputBlur() {
+    this.setData({
+      focusFlag: false
+    })
+  },
+  
+  /**
+   * 切换出emoji键盘
+   */
+  toggleEmoji() {
+    this.setData({
+      emojiFlag: !this.data.emojiFlag,
+      moreFlag: false
+    })
+  },
+  /**
+   * 切出更多
+   */
+  toggleMore() {
+    this.setData({
+      moreFlag: !this.data.moreFlag,
+      emojiFlag: false,
+      focusFlag: false
+    })
+  },
+  /**
+   * emoji组件回调
+   */
+  emojiCLick(e) {
+    let val = e.detail
+    // 单击删除按钮，，删除emoji
+    if (val == '[删除]') {
+      let lastIndex = this.data.inputValue.lastIndexOf('[')
+      if (lastIndex != -1) {
+        this.setData({
+          inputValue: this.data.inputValue.slice(0, lastIndex)
+        })
+      }
+      return
+    }
+    if (val[0] == '[') { // emoji
+      this.setData({
+        inputValue: this.data.inputValue + val
+      })
+    }
+  },
+  /**
+   * emoji点击发送
+   */
+  emojiSend(e) {
+    let val = this.data.inputValue
+    this.sendRequest(val)
+    this.setData({
+      emojiFlag: false
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

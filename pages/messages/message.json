@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "navbar": "/components/navbar/index"
+    "navbar": "/components/navbar/index",
+    "component-emoji": "/components/emoji/emoji"
   }
 }

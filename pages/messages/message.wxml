@@ -2,27 +2,38 @@
 <view class="container">
   <scroll-view scroll-y="true" class="history" scroll-top="{{scrollTop}}">
    
-    <block wx:for="{{histMessage}}" wx:key>
+    <block wx:for="{{histMessage}}" wx:key="content" wx:for-item="v" wx:for-index="key">
       <!--自己的消息 -->
-      <view class="chat-news" wx:if="{{item.nickName == userInfo.nickName}}">
+      <view class="chat-news" wx:if="{{v.nickName == userInfo.nickName}}">
         <view style="text-align: right;padding-right: 20rpx;" bindtap='getUserInfo'>
           <text class="name"></text>
-          <image class='new_img' src="{{item.avatar}}"></image>
+          <image class='new_img' src="{{v.avatar}}"></image>
         </view>
         <view class='my_right'>
-          <block wx:if="{{item.type=='text'}}">
-            <view class='new_txt'>{{item.content}}</view>
+          <block wx:if="{{v.type=='text'}}">
+            <view class='new_txt'>{{v.content}}</view>
           </block>
-          <block wx:if="{{item.type=='image'}}">
-            <image class="selectImg" src="{{item.images}}" data-src="{{item.images}}" lazy-load="true" bindtap="previewImg"></image>
+          <block wx:if="{{v.type=='image'}}">
+            <image class="selectImg" src="{{v.images}}" data-src="{{v.images}}" lazy-load="true" bindtap="previewImg"></image>
           </block>
-          <block wx:if="{{item.type=='video'}}">
+          <block wx:if="{{v.type=='video'}}">
             <!--如果消息是视频，则可播放-->
           </block>
-           <block wx:if="{{item.type=='voice''}}">
-            <!--如果消息是语音，则可播放-->
+           <block wx:if="{{v.type=='voice''}}">
+            <view class='output-audio'>
+              <!-- 默认状态 未播放 -->
+              <view class='audio' wx:if="{{!v.bl}}" bindtap='audioPlay' data-key="{{key}}" data-id="{{v.id}}" data-bl="{{v.bl}}">
+                <image class='ico' src='../../images/yuyin-ico.png' />
+                <label class='time'>{{v.time}}</label>
+              </view>
+              <!-- 当前正在播放状态 -->
+              <view class='audio' wx:if="{{v.bl}}" bindtap='audioStop' data-key="{{key}}"  data-id="{{v.id}}" data-bl="{{v.bl}}">
+                <image class='ico' src='../../images/yuyin-gif.gif' />
+                <label class='time'>{{v.time}}</label>
+              </view>
+            </view>
           </block>
-           <block wx:if="{{item.type=='link'}}">
+           <block wx:if="{{v.type=='link'}}">
             <!--如果消息是链接，则可点击-->
           </block>
         </view>
@@ -30,15 +41,15 @@
       <!-- 别人的消息 -->
       <view class="chat-news" wx:else>
         <view style="text-align: left;padding-left: 20rpx;" bindtag='showUserDetail'>
-          <image class='new_img' src="{{item.avatar}}"></image>
-          <text class="name">{{ item.nickName }}</text>
+          <image class='new_img' src="{{v.avatar}}"></image>
+          <text class="name">{{ v.nickName }}</text>
         </view>
         <view class='you_left'>
-          <block wx:if="{{item.type=='text'}}">
-            <view class='new_txt'>{{item.content}}</view>
+          <block wx:if="{{v.type=='text'}}">
+            <view class='new_txt'>{{v.content}}</view>
           </block>
-          <block wx:if="{{item.type=='image'}}">
-            <image class="selectImg" src="{{item.images}}" data-src="{{item.images}}" lazy-load="true" bindtap="previewImg"></image>
+          <block wx:if="{{v.type=='image'}}">
+            <image class="selectImg" src="{{v.images}}" data-src="{{v.images}}" lazy-load="true" bindtap="previewImg"></image>
           </block>
         </view>
       </view>
@@ -47,22 +58,54 @@
 </view>
 <view id="flag"></view>
 <!-- 聊天输入 -->
-<view class="message">
-  <form bindreset="cleanInput" class="sendMessage">
-    <!-- 暂不实现语音聊天，布局格式比较丑，得完善>
-    <view class="sendVoice" bindtap='sendVoice'>hh
-      <image class="voiceIcon" src="../../images/vacancy.png"></image>
-    </view>
-    <-->
-    <input type="text" placeholder="请输入聊天内容.." value="{{massage}}" bindinput='bindChange'></input>
-    <view class="emoji" bindtap="chooseEmoji"><image class="emojiImg" src="../../images/vacancy.png"></image></view>
-    <view class="add" bindtap='increase' wx:if="{{!increase}}">+</view>
-    <button type="primary" bindtap='send' formType="reset" size="small" button-hover="blue" wx:else>发送</button>
-  </form>
-  <view class='increased {{aniStyle?"slideup":"slidedown"}}' style="display:flex;flex-direction:row;" wx:if="{{increase}}">
-    <view class="image" bindtap='shareGoodLink'>宝贝</view>
-    <view class="image" bindtap='chooseImage'>相册</view>
-    <view class="image" bindtap='takePicture'>拍照</view>
-    <view class="image" bindtap='chooseVideo'>视频</view>
+<view wx:if="{{currentTab == 0}}" class='chatinput-wrapper' style='margin-bottom: {{focusFlag ? 20 : 0}}rpx;' catchtap='stopEventPropagation'>
+  <view class='chatinput-content'>
+    <input value='{{inputValue}}' focus='{{focusFlag}}' bindinput='inputChange' bindfocus='inputFocus' bindblur='inputBlur' bindconfirm='inputSend' class='chatinput-input'  placeholder="输入文字" confirm-type='send'></input>
+    <image src='../../images/more.png' catchtap='toggleMore' class='chatinput-img fr'></image>
+    <image src='../../images/emoji.png' catchtap='toggleEmoji' class='chatinput-img fr'></image>
+  </view>
+  <view wx:if="{{emojiFlag}}" class='chatinput-subcontent'>
+    <component-emoji bind:EmojiClick="emojiCLick" bind:EmojiSend="emojiSend"></component-emoji>
+  </view>
+  <view wx:if="{{moreFlag}}" class='more-subcontent'>
+    <view style='display:flex;justify-content: space-between;'>
+      <view class='more-subcontent-item' catchtap='shareGoodLink'>
+        <image src="{{iconBase64Map.iconAlbum}}" class='image'></image>
+        <text class='text'>宝贝</text>
+      </view>
+      <view class='more-subcontent-item' catchtap='chooseImage'>
+        <image src="{{iconBase64Map.iconCapture}}" class='image'></image>
+        <text class='text'>相册</text>
+      </view>
+      <view class='more-subcontent-item' catchtap='takePicture'>
+        <image src="{{iconBase64Map.iconTip}}" class='image'></image>
+        <text class='text'>拍照</text>
+      </view>
+      <view class='more-subcontent-item' catchtap='chooseVideo'>
+        <image src="{{iconBase64Map.iconFingerGuess}}" class='image'></image>
+        <text class='text'>视频</text>
+      </view>
+      <view class='more-subcontent-item'>
+        <view class='image' style='background-color: transparent;'></view>
+        <text class='text'></text>
+      </view>
+      <view class='more-subcontent-item'>
+        <view class='image' style='background-color: transparent;'>
+        </view><text class='text'></text></view>
+      </view>
+      <view style='display:flex;justify-content: space-between;'>
+      <view class='more-subcontent-item' catchtap='choosePosition'>
+        <image src="{{iconBase64Map.iconPosition}}" class='image'></image>
+        <text class='text'>位置</text>
+      </view>
+      <view class='more-subcontent-item'>
+        <view class='image' style='background-color: transparent;'></view>
+        <text class='text'></text>
+      </view>
+      <view class='more-subcontent-item'>
+        <view class='image' style='background-color: transparent;'></view>
+        <text class='text'></text>
+      </view>
+    </view> 
   </view>
 </view>
