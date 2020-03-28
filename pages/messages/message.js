@@ -2,6 +2,7 @@
 import { getUserInfo, userActivity } from '../../api/user.js';
 
 var websocket = require('../../utils/websocket.js');
+const myaudio = wx.createInnerAudioContext();
 const app = getApp();
 
 Page({
@@ -13,13 +14,19 @@ Page({
     parameter: {
       'navbar': '1',
       'return': '1',
-      'title': '',    //此处应设为对话时对方昵称
+      'title': '寻蜜人生',    //此处应设为对话时对方昵称
       'color': false
     },
     scrollTop: 0,
 
-    //newsList 对话数据，包含user，id，avatar,type等等,此数据在app加载时，读取，并且实时消息应同步到数据库
-    histMessage: [],
+    //histMessage 对话数据，包含user，id，avatar,type等等,此数据在app加载时，读取，并且实时消息应同步到数据库
+    histMessage: [
+      { 'nickName': '邓杰', 'avatar': '../../images/logo.png', 'type': 'text', 'content': '您好，请问这个可以优惠一点吗', 'date': '20200315' },
+      { 'nickName': '邓杰', 'avatar': '../../images/logo.png', 'type': 'image', 'images': '../../images/down.png' },
+      { 'nickName': '寻蜜人生', 'avatar': '../../images/one.png', 'type': 'voice', 'time': '30s', 'bl': false, 'content': '不行哦', 'date': '20200315' },
+      //{ 'nickName': '寻蜜人生', 'avatar': '../../images/one.png', 'type': 'video', 'url': 'http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400' },
+
+    ],
     curMessage: '',
     userInfo: {},
     previewImgList: [],
@@ -32,6 +39,10 @@ Page({
     inputValue: '', // 发送的文本内容
 
   },
+
+  /**
+   * 
+   */
 
   //音频播放  
   audioPlay(e) {
@@ -132,6 +143,9 @@ Page({
 
   /**
    * 点击头像，详情界面
+   * 1，如果是用户点击商家头像，去到店铺界面
+   * 2，如果是商家点用户头像，去到记录界面
+   * 3，自己点自己头像，则去到个人设置界面
    */
   showUserDetail: function () {
     wx.navigateTo({
@@ -152,16 +166,16 @@ Page({
       })
     } else {
       setTimeout(function () {
-        that.setData({
+        this.setData({
           curMessage: {
             "content": res.data,
             "date":new Date(),
             "type":"text",
             "nickName":that.data.userInfo.nickName,
-            "avatarUrl":that.data.userInfo.avatar
+            "avatarUrl":that.data.userInfo.avatar,
           },
-          that.data.histMessage.push(that.data.curMessage),
-          increase: false,
+          //that.data.histMessage.push(that.data.curMessage),
+          increase: false
         })
       }, 500)
       that.chat.send(that.data.curMessage)
@@ -171,7 +185,8 @@ Page({
   /**
    * 发送商品链接
    */
-  shareGoodLink: function () {
+  shareGoodLink: function (res) {
+    var that=this
     this.setData({
       curMessage: {
         "content": res.data,
@@ -181,10 +196,10 @@ Page({
         "avatarUrl":that.data.userInfo.avatar
       },
       //curMessage 应该转换为json字符串，放到histMessage?
-      that.data.histMessage.push(that.data.curMessage)
+      //that.data.histMessage.push(that.data.curMessage)
     })
     websocket.send(this.data.curMessage)
-    this.bottom()
+    that.bottom()
   },
   /**
    * 打开相册选择图片
@@ -209,7 +224,7 @@ Page({
               that.setData({
                 curMessage:'{"content":"' + res.data + '","date":"' + (new Date()) + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}',
                 //curMessage 应该转换为json字符串，放到histMessage?
-                that.data.histMessage.push(that.data.curMessage),
+                //that.data.histMessage.push(that.data.curMessage),
                 increase: false
               })
               // 数据同步后端，更新到数据库
@@ -226,6 +241,7 @@ Page({
    */
   takePicture: function () {
     var that = this
+    console.log('拍照')
     that.data.ctx.takePhoto({
       quality: 'high',
       success: (res) => {
@@ -241,7 +257,7 @@ Page({
               that.setData({
                 curMessage: '{"content":"' + res.data + '","date":"' + (new Date()) + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}',
                 //curMessage 应该转换为json字符串，放到histMessage?
-                that.data.histMessage.push(that.data.curMessage),
+                //that.data.histMessage.push(that.data.curMessage),
                 increase: false
               })
               // 数据同步后端，更新到数据库
@@ -277,7 +293,7 @@ Page({
               that.setData({
                 curMessage:'{"content":"' + res.data + '","date":"' + (new Date()) + '","type":"image","nickName":"' + that.data.userInfo.nickName + '","avatar":"' + that.data.userInfo.avatar + '"}',
                 //curMessage 应该转换为json字符串，放到histMessage?
-                that.data.histMessage.push(that.data.curMessage),
+                //that.data.histMessage.push(that.data.curMessage),
                 increase: false
               })
               // 数据同步后端，更新到数据库
@@ -290,8 +306,17 @@ Page({
     })
   },
 
+  /**
+   * 选择并发送位置，发送暂未实现
+   */
   choosePosition: function() {
-
+    wx.chooseLocation({
+      success(res) {
+        that.city = res.name;
+        that.latitude = res.latitude;
+        that.longitude = res.longitude;
+      }
+    })
   },
   //聊天消息始终显示最底端
   bottom: function () {

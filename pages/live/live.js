@@ -1,23 +1,11 @@
-// pages/details/detail.js
-const app = getApp()
+// pages/live/live.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    parameter: {
-      'navbar': '1',
-      'return': '1',
-      'title': '客户详情',
-      'color': false
-    },
-    userInfo: {},
-    buyRecord: {},
-    visitRecord: {},
-    customFlag: true,
-    orderFlag: false,
-    mostBuyFlag: false,
+
   },
 
   /**

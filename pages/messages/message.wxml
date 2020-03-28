@@ -1,39 +1,38 @@
 <navbar parameter='{{parameter}}'></navbar>
 <view class="container">
   <scroll-view scroll-y="true" class="history" scroll-top="{{scrollTop}}">
-   
-    <block wx:for="{{histMessage}}" wx:key="content" wx:for-item="v" wx:for-index="key">
+    <block wx:for="{{histMessage}}" wx:for-index="key" wx:key>
       <!--自己的消息 -->
-      <view class="chat-news" wx:if="{{v.nickName == userInfo.nickName}}">
-        <view style="text-align: right;padding-right: 20rpx;" bindtap='getUserInfo'>
+      <view class="chat-news" wx:if="{{item.nickName == userInfo.nickName}}">
+        <view style="text-align: right;padding-right: 20rpx;" bindtap='showUserDetail'>
           <text class="name"></text>
-          <image class='new_img' src="{{v.avatar}}"></image>
+          <image class='new_img' src="{{item.avatar}}"></image>
         </view>
         <view class='my_right'>
-          <block wx:if="{{v.type=='text'}}">
-            <view class='new_txt'>{{v.content}}</view>
+          <block wx:if="{{item.type=='text'}}">
+            <view class='new_txt'>{{item.content}}</view>
           </block>
-          <block wx:if="{{v.type=='image'}}">
-            <image class="selectImg" src="{{v.images}}" data-src="{{v.images}}" lazy-load="true" bindtap="previewImg"></image>
+          <block wx:if="{{item.type=='image'}}">
+            <image class="selectImg" src="{{item.images}}" data-src="{{item.images}}" lazy-load="true" bindtap="previewImg"></image>
           </block>
-          <block wx:if="{{v.type=='video'}}">
-            <!--如果消息是视频，则可播放-->
+          <block wx:if="{{item.type=='video'}}">
+             <video id="prew_video" autoplay="false" muted="{{flase}}" bindfullscreenchange="bindVideoScreenChange" src="{{item.url}}" ></video>
           </block>
-           <block wx:if="{{v.type=='voice''}}">
+           <block wx:if="{{item.type=='voice'}}">
             <view class='output-audio'>
               <!-- 默认状态 未播放 -->
-              <view class='audio' wx:if="{{!v.bl}}" bindtap='audioPlay' data-key="{{key}}" data-id="{{v.id}}" data-bl="{{v.bl}}">
+              <view class='audio' wx:if="{{!item.bl}}" bindtap='audioPlay' data-key="{{key}}" data-id="{{item.id}}" data-bl="{{item.bl}}">
                 <image class='ico' src='../../images/yuyin-ico.png' />
-                <label class='time'>{{v.time}}</label>
+                <label class='time'>{{item.time}}</label>
               </view>
               <!-- 当前正在播放状态 -->
-              <view class='audio' wx:if="{{v.bl}}" bindtap='audioStop' data-key="{{key}}"  data-id="{{v.id}}" data-bl="{{v.bl}}">
+              <view class='audio' wx:if="{{item.bl}}" bindtap='audioStop' data-key="{{key}}"  data-id="{{item.id}}" data-bl="{{item.bl}}">
                 <image class='ico' src='../../images/yuyin-gif.gif' />
-                <label class='time'>{{v.time}}</label>
+                <label class='time'>{{item.time}}</label>
               </view>
             </view>
           </block>
-           <block wx:if="{{v.type=='link'}}">
+           <block wx:if="{{item.type=='link'}}">
             <!--如果消息是链接，则可点击-->
           </block>
         </view>
@@ -41,15 +40,35 @@
       <!-- 别人的消息 -->
       <view class="chat-news" wx:else>
         <view style="text-align: left;padding-left: 20rpx;" bindtag='showUserDetail'>
-          <image class='new_img' src="{{v.avatar}}"></image>
-          <text class="name">{{ v.nickName }}</text>
+          <image class='new_img' src="{{item.avatar}}"></image>
+          <text class="name">{{ item.nickName }}</text>
         </view>
         <view class='you_left'>
-          <block wx:if="{{v.type=='text'}}">
-            <view class='new_txt'>{{v.content}}</view>
+          <block wx:if="{{item.type=='text'}}">
+            <view class='new_txt'>{{item.content}}</view>
           </block>
-          <block wx:if="{{v.type=='image'}}">
-            <image class="selectImg" src="{{v.images}}" data-src="{{v.images}}" lazy-load="true" bindtap="previewImg"></image>
+          <block wx:if="{{item.type=='image'}}">
+            <image class="selectImg" src="{{item.images}}" data-src="{{item.images}}" lazy-load="true" bindtap="previewImg"></image>
+          </block>
+          <block wx:if="{{item.type=='video'}}">
+             <video id="prew_video" autoplay="false" muted="{{flase}}" bindfullscreenchange="bindVideoScreenChange" src="{{item.url}}" ></video>
+          </block>
+           <block wx:if="{{item.type=='voice'}}">
+            <view class='output-audio'>
+              <!-- 默认状态 未播放 -->
+              <view class='audio' wx:if="{{!item.bl}}" bindtap='audioPlay' data-key="{{key}}" data-id="{{item.id}}" data-bl="{{item.bl}}">
+                <image class='ico' src='../../images/yuyin-ico.png' />
+                <label class='time'>{{item.time}}</label>
+              </view>
+              <!-- 当前正在播放状态 -->
+              <view class='audio' wx:if="{{item.bl}}" bindtap='audioStop' data-key="{{key}}"  data-id="{{item.id}}" data-bl="{{item.bl}}">
+                <image class='ico' src='../../images/yuyin-gif.gif' />
+                <label class='time'>{{item.time}}</label>
+              </view>
+            </view>
+          </block>
+           <block wx:if="{{item.type=='link'}}">
+            <!--如果消息是链接，则可点击-->
           </block>
         </view>
       </view>
