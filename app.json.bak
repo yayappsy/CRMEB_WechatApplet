@@ -122,3 +122,26 @@
   },
   "sitemapLocation": "sitemap.json"
 }
+
+
+
+
+
+//客服模块
+
+// {
+//   "pages": [
+//     "pages/messages/message",
+//     "components/navbar/index",
+//     "components/emoji/emoji",
+//     "pages/live/live"
+//   ],
+//   "window": {
+//     "backgroundTextStyle": "dark",
+//     "navigationBarBackgroundColor": "#fff",
+//     "navigationBarTitleText": "WeChat",
+//     "navigationBarTextStyle": "black",
+//     "navigationStyle": "custom"
+//   },
+//   "sitemapLocation": "sitemap.json"
+// }
