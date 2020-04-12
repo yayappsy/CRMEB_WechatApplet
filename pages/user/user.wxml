@@ -93,5 +93,6 @@
    </view>
    <image src='/images/support.png' class='support'></image>
 </view> 
-
+<contact></contact>
 <authorize bind:onLoadFun='onLoadFun' isGoIndex='{{isGoIndex}}' iShidden="{{iShidden}}" isAuto="{{isAuto}}"></authorize>
+
