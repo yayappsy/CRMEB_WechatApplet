@@ -1,0 +1,60 @@
+<!--pages/details/detail.wxml-->
+<navbar parameter='{{parameter}}'></navbar>
+<view class="user">
+  <view class='header bg-color acea-row row-between-wrapper'>
+      <view class='picTxt acea-row row-between-wrapper'>
+         <view class='pictrue'><image src='{{userInfo.avatar}}'></image></view>
+         <view class='text'>
+            <view class='acea-row row-middle'>
+               <view data-url='/pages/user_vip/index' class='member acea-row row-middle' wx:if="{{userInfo.vip}}" bindtap='goPages'>
+               <image src='{{userInfo.vip_icon}}'></image>{{userInfo.vip_name}}</view>
+            </view>
+            <view class='id' data-url='/pages/user_info/index' bindtap='goPages' wx:if='{{userInfo.phone}}'>ID：{{userInfo.uid || 0}}<text class='iconfont icon-bianji1'></text></view>
+            <view wx:else data-url='/pages/user_phone/index' bindtap='goPages'><text class="binding">xxxx</text></view>
+         </view>
+      </view>
+      
+   </view>
+  <view class="title-desc">本店购买数据</view>
+  <view class='wrapper'>
+    <view class='nav acea-row row-middle'>
+        <view class='item' data-url='/pages/user_money/index' bindtap='goPages'>
+          <view>累计购买</view>
+          <view class='num'>{{userInfo.now_money || 0}}</view>
+        </view>
+        <view class='item' data-url='/pages/user_integral/index' bindtap='goPages'>
+          <view>最近购买</view>
+          <view class='num'>{{userInfo.integral || 0}}</view>
+        </view>
+        <view class='item' data-url='/pages/user_coupon/index' bindtap='goPages'>
+          <view>总交易额</view>
+          <view class='num'>{{userInfo.couponCount || 0}}</view>
+        </view>
+    </view>
+  </view>
+  <view class='wrapper'>
+    <view class='nav acea-row row-middle'>
+        <view class='item' data-url='/pages/user_money/index' bindtap='goPages'>
+          <view>客户动态</view>
+          <view class='num'></view>
+        </view>
+        <view class='item' data-url='/pages/user_integral/index' bindtap='goPages'>
+          <view>订单记录</view>
+          <view class='num'></view>
+        </view>
+        <view class='item' data-url='/pages/user_coupon/index' bindtap='goPages'>
+          <view>常买的商品</view>
+          <view class='num'></view>
+        </view>
+    </view>
+  </view>
+  <view class="block" wx:if="{{customFlag}}">
+    xxx 购买了商品
+  </view>
+  <view class="block" wx:if="{{orderFlag}}">
+    xxx 购买了商品
+  </view>
+  <view class="block" wx:if="{{mostBuyFlag}}">
+    xxx 购买了商品
+  </view>
+</view>

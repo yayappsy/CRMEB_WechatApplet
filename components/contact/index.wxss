@@ -1,0 +1,5 @@
+/* components/contact/index.wxss */
+@import '/app.wxss';
+.contact{position: fixed ;top:780rpx;color: white;text-align: center;z-index:99;right:10rpx;}
+.contact .item .pictrue{width:110rpx;height:110rpx;border-radius:50%;margin-top:20rpx;}
+.contact .item .pictrue image{width:100%;height:100%;border-radius:50%;}
