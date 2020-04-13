@@ -20,13 +20,12 @@ Page({
     total:0,
     totalLevel:0,
     teamCount: 0,
-    page: 0,
+    page: 1,
     limit: 20,
     keyword:'',
     sort:'',
     grade:0,
     status: false,
-    loading: false,
     recordList:[],
   },
 
@@ -57,7 +56,7 @@ Page({
     var that = this;
     that.setData({
       sort: e.currentTarget.dataset.sort,
-      page: 0,
+      page: 1,
       limit: 20,
       status: false,
       recordList: [],
@@ -69,7 +68,7 @@ Page({
   },
   setRecordList: function () {
     this.setData({
-      page: 0,
+      page: 1,
       limit: 20,
       status: false,
       recordList: [],
@@ -80,7 +79,7 @@ Page({
     if (this.data.grade != e.currentTarget.dataset.grade) {
       this.setData({
         grade: e.currentTarget.dataset.grade,
-        page: 0,
+        page: 1,
         limit: 20,
         keyword: '',
         sort: '',
@@ -101,8 +100,6 @@ Page({
     var recordList = that.data.recordList;
     var recordListNew = [];
     if (status == true) return;
-    if (that.data.loading) return;
-    that.setData({loading:true});
     spreadPeople({
       page: page,
       limit: limit,
@@ -118,12 +115,9 @@ Page({
         totalLevel: res.data.totalLevel,
         teamCount: Number(res.data.total) + Number(res.data.totalLevel),
         status: limit > len,
-        page: page + 1,
-        loading: false,
+        page:  page + 1,
         recordList: recordListNew
       });
-    }).catch(res=>{
-      that.setData({loading:false});
     });
   },
   /**

@@ -10,9 +10,8 @@ import {
 } from '../../../api/activity.js';
 import { postCartAdd } from '../../../api/store.js';
 import wxh from '../../../utils/wxh.js';
-import wxParse from '../../../wxParse/wxParse.js';
+import WxParse from '../../../wxParse/wxParse.js';
 import util from '../../../utils/util.js';
-
 const app = getApp();
 
 Page({
@@ -44,11 +43,20 @@ Page({
     bargainPartake:0,
     isHelp:false,
     interval:null,
+    userBargainStatus:0,//判断自己是否砍价
+    productStock:0,//判断是否售罄；
+    quota:0,//判断是否已限量；
+    userBargainStatusHelp:true,
+    navH: '',
+    statusPay:'',
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      navH: app.globalData.navHeight
+    });
     var that = this;
     var pages = getCurrentPages();
     if (pages.length <= 1) that.setData({ retunTop:false});
@@ -64,23 +72,23 @@ Page({
         app.globalData.spid = value;
       }
     }
-    if (options.hasOwnProperty('id') && options.hasOwnProperty('bargain')) {
-      if (options.bargain > 0) {
-        this.setData({ id: options.id, bargainUid: options.bargain });
-      } else {
-        return app.Tips({ title: '参数错误',icon: 'none',}, { tab: 3, url: 1 });
-      };
-    } else {
-      return app.Tips({title: '参数错误',icon: 'none',}, { tab: 3, url: 1 });
-    };
+    if (options.hasOwnProperty('id')) {
+      this.setData({ id: options.id, bargainUid: options.bargain || 0 });
+    }
+  },
+  /**
+   * 跳转到商品页面
+   */
+  goProduct:function(){
+    return app.Tips('/pages/goods_details/index?id=' + this.data.bargainInfo.product_id);
   },
   goBack: function () {
     wx.navigateBack({ delta: 1 })
   },
   gobargainUserInfo:function(){//获取开启砍价用户信息
     var that = this;
-    var data = { userId: that.data.bargainUid };
-    postBargainStartUser(that.data.bargainUid).then(res=>{
+    var data = { bargainId: that.data.id, bargainUserUid: that.data.bargainUid };
+    postBargainStartUser(data).then(res=>{
       that.setData({ bargainUserInfo: res.data });
     });
   },
@@ -109,20 +117,29 @@ Page({
         bargainInfo: res.data.bargain, 
         bargainPrice:res.data.bargain.price,
         userInfo: res.data.userInfo, 
-        bargainSumCount: res.data.bargainSumCount 
+        bargainSumCount: res.data.bargainSumCount,
+        userBargainStatus: res.data.userBargainStatus,
+        productStock: res.data.bargain.attr.product_stock,
+        quota: res.data.bargain.attr.quota
       });
       app.globalData.openPages = '/pages/activity/goods_bargain_details/index?id=' + that.data.id + '&bargain=' + that.data.bargainUid + '&scene=' + that.data.userInfo.uid;
-      wxParse.wxParse('description', 'html', that.data.bargainInfo.description || '', that, 0); 
-      wxParse.wxParse('rule', 'html', that.data.bargainInfo.rule || '', that, 0); 
+      WxParse.wxParse('description', 'html', that.data.bargainInfo.description || '', that, 0); 
+      WxParse.wxParse('rule', 'html', that.data.bargainInfo.rule || '', that, 0); 
       wxh.time2(that.data.bargainInfo.stop_time, that);
-      if (that.data.userInfo.uid == that.data.bargainUid) that.setBargain();
-      else {
-        that.getBargainHelpCount();
-        that.setData({ bargainUserHelpList:[]});
-        that.getBargainUser();
-        that.gobargainUserInfo();
-      }
+      that.getBargainHelpCount();
+      that.setData({ bargainUserHelpList: [] });
+      that.getBargainUser();
+      that.gobargainUserInfo();
+    }).catch(function(err){
+      return app.Tips({ title: err }, { tab: 3, url: 1 });
     })
+  },
+  // 自己砍价；
+  userBargain:function(){
+    let that = this;
+    if (that.data.userInfo.uid == that.data.bargainUid){
+      that.setBargain();
+    }
   },
   getBargainHelpCount: function () {//获取砍价帮总人数、剩余金额、进度条、已经砍掉的价格
     var that = this;
@@ -132,6 +149,8 @@ Page({
       that.setData({
         bargainUserHelpInfo: res.data,
         'bargainInfo.price': parseFloat(price) <= 0 ? 0 : price,
+        userBargainStatusHelp: res.data.userBargainStatus,
+        statusPay: res.data.status
       });
     })
   },
@@ -146,6 +165,9 @@ Page({
       that.getBargainUserBargainPrice();
       that.setBargainHelp();
       that.getBargainHelpCount();
+      that.setData({
+        userBargainStatus:1
+      })
     })
   },
   setBargainHelp: function () {//帮好友砍价
@@ -209,6 +231,13 @@ Page({
 
   },
   onLoadFun: function (e) {
+    let uid = e.detail.uid;
+    if(!this.data.bargainUid && uid){
+      this.setData({bargainUid:uid});
+    }
+    if(!this.data.bargainUid){
+      return app.Tips({ title:'参数错误'},{tab:3,url:1})
+    }
     this.getBargainDetails();
     this.addShareBargain();
     app.globalData.openPages = '/pages/activity/goods_bargain_details/index?id=' + this.data.id + '&bargain=' + this.data.bargainUid + '&spid=' + e.detail.uid;

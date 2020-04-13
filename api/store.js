@@ -127,3 +127,10 @@ export function getGroomList(type){
 export function getSearchKeyword(){
   return request.get('search/keyword',{},{noAuth:true});
 }
+/**
+ * 门店列表
+ * @returns {*}
+ */
+export function storeListApi(data) {
+  return request.get("store_list", data);
+}

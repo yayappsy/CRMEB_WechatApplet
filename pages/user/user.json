@@ -2,7 +2,7 @@
   "usingComponents": {
     "navbar": "/components/navbar/index",
     "authorize": "/components/authorize/authorize",
-    "contact": "/components/contact/index"
+    "generalWindow": "/components/general-window/index"
   },
   "navigationBarTextStyle": "white"
 }

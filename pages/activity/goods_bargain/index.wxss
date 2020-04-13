@@ -10,6 +10,7 @@ page{background-color:#e93323 !important;}
 .bargain-list .list .item .text .num .iconfont{font-size:35rpx;margin-right:7rpx;}
 .bargain-list .list .item .text .money{font-size:24rpx;font-weight:bold;}
 .bargain-list .list .item .text .money .price{font-size:32rpx;}
+.bargain-list .list .item .text .line1{width:450rpx;}
 .bargain-list .list .item .cutBnt{position:absolute;width:180rpx;height:50rpx;border-radius:50rpx;font-size:24rpx;color:#fff;text-align:center;line-height:46rpx;right:24rpx;bottom:28rpx;box-shadow:0 7rpx 0 #f8c1bd;}
 .bargain-list .list .item .cutBnt .iconfont{margin-right:8rpx;font-size:30rpx;}
 .bargain-list .list .load{font-size:24rpx;height:85rpx;text-align:center;line-height:85rpx;}

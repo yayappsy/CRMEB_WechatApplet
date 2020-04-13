@@ -34,8 +34,8 @@
       <!-- 成功或失败时加：result -->
       <view class='list acea-row row-middle {{iShidden?"on":""}} {{isOk ? "result": ""}}' >
          <view class='pictrue'><image src='{{pinkT.avatar}}'></image></view>
-         <view class='pictrue' wx:for="{{pinkAll}}" wx:key><image src='{{item.avatar}}'></image></view>
-         <view class='pictrue' wx:for="{{count}}" wx:key><image src='/images/vacancy.png'></image></view>
+         <view class='pictrue' wx:for="{{pinkAll}}" wx:key='index'><image src='{{item.avatar}}'></image></view>
+         <view class='pictrue' wx:for="{{count}}" wx:key='index'><image src='/images/vacancy.png'></image></view>
       </view>
     
       <!-- 分享团后进入页面-我要参团 -->
@@ -69,7 +69,7 @@
          <navigator hover-class='none' url='/pages/activity/goods_combination/index' class='more'>更多拼团<text class='iconfont icon-jiantou'></text></navigator>
       </view>
       <view class='list acea-row row-middle'>
-         <navigator hover-class='none' class='item' wx:for="{{storeCombinationHost}}" wx:key url='/pages/activity/goods_combination_details/index?id={{item.id}}'>
+         <navigator hover-class='none' class='item' wx:for="{{storeCombinationHost}}" wx:key='index' url='/pages/activity/goods_combination_details/index?id={{item.id}}'>
             <view class='pictrue'>
               <image src='{{item.image}}'></image>
               <view class='team'>{{item.people}}人团</view>
@@ -80,5 +80,18 @@
       </view>
    </view>
 </view>
+<product-window
+  iSplus="{{iSplus}}"
+  limitNum="{{limitNum}}"
+  iSbnt='{{iSbnt}}'  
+  attribute='{{attribute}}' 
+  productAttr="{{productAttr}}" 
+  productSelect="{{productSelect}}" 
+  bind:myevent="onMyEvent" 
+  bind:ChangeAttr="ChangeAttr" 
+  bind:ChangeCartNum="ChangeCartNum"
+  bind:iptCartNum="iptCartNum" 
+  bind:goCat="goCat"
+></product-window>
 <authorize bind:onLoadFun="onLoadFun"></authorize>
 <home></home>
