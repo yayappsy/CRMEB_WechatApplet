@@ -101,9 +101,9 @@ Page({
           return item.n;
         });
       break;
-      case 2:
+      //case 2:
       
-      break;
+      //break;
     }
     this.setData({ multiArray: multiArray, multiIndex: multiIndex});
   },

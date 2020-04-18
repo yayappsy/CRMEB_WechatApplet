@@ -14,6 +14,7 @@
           <navigator hover-class='none' url='/pages/index/index'  open-type='switchTab' class='iconfont icon-shouye-xianxing'></navigator>
           <navigator hover-class='none' url='/pages/order_addcart/order_addcart'  open-type='switchTab' class='iconfont icon-caigou-xianxing'></navigator>
           <navigator hover-class='none' url='/pages/user/user'  open-type='switchTab' class='iconfont icon-yonghu1'></navigator>
+          <!--button class='iconfont icon-contact' style="font-size:24;" open-type='contact' hover-class='none'>客服</button-->
       </view>
    <view class='pictrue {{homeActive==true?"on":""}}' bindtap='open'><image src='{{homeActive==false?"/images/close.gif":"/images/open.gif"}}'></image></view>
 </view>

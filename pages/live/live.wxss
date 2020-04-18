@@ -1,1 +1,170 @@
 /* pages/live/live.wxss */
+.liveBroadcast .title{font-size:30rpx;color:#282828;font-weight:600;padding:0 30rpx;}
+.liveBroadcast .list{white-space:nowrap;margin-top:25rpx;}
+.liveBroadcast .list .item{width:320rpx;display:inline-block;margin-right:20rpx;}
+.liveBroadcast .list .item .pictrue{width:100%;height:180rpx;border-radius:10rpx;position:relative;}
+.liveBroadcast .list .item:nth-of-type(1){margin-left:30rpx;}
+.liveBroadcast .list .item image{width:100%;height:100%;border-radius:10rpx;display:block;}
+.liveBroadcast .list .item .label{background:linear-gradient(270deg,rgba(255,85,85,1) 0%,rgba(255,0,0,1) 100%);border-radius:10rpx 0 10rpx 0;height:36rpx;line-height:36rpx;position:absolute;top:0;left:0;color:#fff;font-size:22rpx;padding:0 15rpx;}
+.liveBroadcast .list .item .label .iconfont{font-size:25rpx;margin-right:7rpx;}
+.liveBroadcast .list .item.end .label{background:linear-gradient(270deg,rgba(153,153,153,1) 0%,rgba(102,102,102,1) 100%);}
+.liveBroadcast .list .item.time .label{background:linear-gradient(315deg,rgba(24,192,244,1) 0%,rgba(26,163,246,1) 100%);}
+.liveBroadcast .list .item .text{font-size:30rpx;color:#000;margin:16rpx 0 39rpx 0;}
+.liveBroadcast .broadcast{width:690rpx;margin:25rpx auto 0 auto;}
+.liveBroadcast .broadcast .pictrue{width:100%;height:390rpx;border-radius:10rpx;position:relative;}
+.liveBroadcast .broadcast .pictrue image{width:100%;height:100%;border-radius:10rpx;display:block;}
+.liveBroadcast .broadcast .pictrue .label{position:absolute;top:0;left:0;height:44rpx;border-radius:10rpx 0 10rpx 0;background:linear-gradient(270deg,rgba(255,85,85,1) 0%,rgba(255,0,0,1) 100%);color:#fff;font-size:24rpx;line-height:44rpx;padding:0 15rpx;}
+.liveBroadcast .broadcast .pictrue .label .iconfont{font-size:30rpx;margin-right:12rpx;}
+.liveBroadcast .broadcast .text{font-size:30rpx;color:#000;margin:18rpx 0 39rpx 0;}
+.liveBroadcast .broadcast.end .label{background:linear-gradient(270deg,rgba(153,153,153,1) 0%,rgba(102,102,102,1) 100%);}
+.liveBroadcast .broadcast.time .label{background:linear-gradient(315deg,rgba(24,192,244,1) 0%,rgba(26,163,246,1) 100%);}
+.listNews{
+    margin:10px 8px 0;
+}
+
+.listNews .listTitle{
+    display: flex;
+    height:18px;
+    font-size:16px;
+    justify-content:space-between;
+    align-items:flex-end;
+}
+
+.listNews .listTitle .listText{
+    display: flex;
+    align-items:flex-end;
+    height:23px;
+
+}
+
+.listNews .listTitle .listText:before{
+    content:'';
+    width:2px;
+    background:#f06000;
+    border-radius: 2px;
+    display:inline-block;
+    margin: 2px 4px 0 0;
+    height:14px;
+    align-self:center;
+}
+
+.listNews .listTitle .text{
+    font-size:16px;
+    color: #222;
+}
+
+.listNews .listTitle .more{
+    color:#f06000;
+    font-size:12px;
+}
+
+.listNews .list-flex{
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+    flex-wrap:wrap;
+}
+
+.listNews .listBox{
+    width:49%;
+    margin-top:8px;
+}
+
+.listNews .listBox .boxPic{
+    height:95px;
+    position:relative;
+}
+
+.listNews .listBox image{
+    width:100%;
+    height:95px;
+    border-radius: 4px;
+}
+
+.listNews .listBox .boxPic .time{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 3px 8px;
+    font-size: 12px;
+    color: #fff;
+    background-color: rgba(0,0,0,.6);
+    border-radius: 4px 0 4px 0;
+}
+
+.listNews .listBox .boxPic .icon{
+    position:absolute;
+    top:0;
+    left:0;
+    width: 37px;
+    height: 37px;
+}
+
+.listNews .listBox .boxTitle1,
+.listNews .listBox .boxTitle2{
+    overflow: hidden;
+    width: 100%;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.listNews .listBox .boxTitle1{
+    height: 20px;
+    margin-top: 2px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #222;
+}
+
+.listNews .listBox .boxTitle2{
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    color: #999;
+}
+
+.listBigNews{
+    margin:10px 8px 0;
+}
+
+.listBigNews .listTitle{
+    position: relative;
+    font-size: 16px;
+    color: #222;
+    height:18px;
+}
+
+.listBigNews .listTitle:before{
+    content:'';
+    width:2px;
+    background:#f06000;
+    border-radius: 2px;
+    display:inline-block;
+    margin: 2px 4px 0 0;
+    height:14px;
+}
+
+.listBigNews .listBox{
+    margin-top:8px;
+
+}
+
+.listBigNews .listBox image{
+    border-radius: 4px;
+    width:100%;
+    height:155px;
+}
+
+.listBigNews .listBox .listText{
+    height: 20px;
+    margin-top: 2px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #222;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

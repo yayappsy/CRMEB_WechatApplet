@@ -46,6 +46,7 @@
     "pages/order_cancellation/index",
     "pages/commission_rank/index",
     "pages/promoter_rank/index",
+    "pages/live/live",
     "components/navbar/index",
     "components/recommend/index",
     "components/share-red-packets/index",
@@ -78,7 +79,13 @@
         "goods_bargain/index",
         "poster-poster/index",
         "user_goods_bargain_list/index"
-      ]
+      ],
+      "plugins": {
+        "live-player-plugin": {
+          "version": "1.0.7",
+          "provider": "wx2b03c6e691cd7370"
+        }
+      }
     },
     {
       "root": "pages/admin",
@@ -118,6 +125,12 @@
         "iconPath": "images/2-001.png",
         "selectedIconPath": "images/2-002.png",
         "text": "分类"
+      },
+      {
+        "pagePath": "pages/live/live",
+        "iconPath": "images/3-001.png",
+        "selectedIconPath": "images/3-002.png",
+        "text": "直播"
       },
       {
         "pagePath": "pages/order_addcart/order_addcart",

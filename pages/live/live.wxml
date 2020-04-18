@@ -1,2 +1,53 @@
 <!--pages/live/live.wxml-->
-<text>pages/live/live.wxml</text>
+<navbar parameter='{{parameter}}'></navbar>
+<view class="liveBroadcast" wx:if='{{liveList.length || liveInfo.roomid}}'>
+  <view class="title">热门直播</view>
+  <!-- end:结束；time：直播时间 -->
+  <navigator wx:if='{{liveInfo.roomid}}' hover-class="none" url="plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id={{liveInfo.roomid}}" class="broadcast time">
+      <view class="pictrue">
+        <image src="{{liveInfo.cover_img}}"></image>
+        <view class="label" wx:if='{{liveInfo.live_status == 101}}'><text class="iconfont icon-zhibo"></text>直播中</view>
+        <view class="label" wx:if='{{liveInfo.live_status == 103}}'><text class="iconfont icon-zhibojieshux"></text>已结束</view>
+        <view class="label" wx:if='{{liveInfo.live_status == 102}}'><text class="iconfont icon-shijian"></text>直播时间 {{liveInfo._start_time}}</view>
+      </view>
+      <view class="text line1">{{liveInfo.name}}</view>
+  </navigator>
+  <view class="list" wx:if="{{liveList.length}}">
+      <scroll-view class="scroll-view_x" scroll-x style="width:auto;overflow:hidden;">
+        <navigator hover-class="none" wx:for='{{liveList}}' wx:key='index' url="plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id={{item.roomid}}" class="item">
+            <view class="pictrue">
+              <image src="{{item.cover_img}}"></image>
+              <view class="label" wx:if='{{item.live_status == 101}}'><text class="iconfont icon-zhibo"></text>直播中</view>
+        <view class="label" wx:if='{{item.live_status == 103}}'><text class="iconfont icon-zhibojieshux"></text>已结束</view>
+        <view class="label" wx:if='{{item.live_status == 102}}'><text class="iconfont icon-shijian"></text>直播时间 {{item._start_time}}</view>
+            </view>
+            <view class="text line1">{{item.name}}</view>
+          </navigator>
+      </scroll-view>
+  </view>
+</view>
+
+<view class="listNews">
+    <view class="title">热门视频</view>
+    <view class="list-flex">
+        <block wx:for="{{vedioList}}" wx:key>
+            <view class="listBox">
+                <navigator url="{{item.url}}">
+                    <view class="boxPic">
+                        <image src="{{item.picUrl}}"/>
+                        <image src="{{item.icon}}" class="icon {{item.icon ? 'show' : 'hide'}}"/>
+                        <view class="time {{item.tag?'show':'hide'}}" >
+                            {{item.tag}}
+                        </view>
+                    </view>
+                    <view class="boxTitle1">
+                        <text>{{item.name}}</text>
+                    </view>
+                    <view class="boxTitle2">
+                        <text>{{item.desc}}</text>
+                    </view>
+                </navigator>
+            </view>
+        </block>
+    </view>
+</view>
