@@ -30,9 +30,9 @@
 <view class="listNews">
     <view class="title">热门视频</view>
     <view class="list-flex">
-        <block wx:for="{{vedioList}}" wx:key>
+        <block wx:for="{{videoList}}" wx:key>
             <view class="listBox">
-                <navigator url="{{item.url}}">
+                <navigator url="../video_play/play?name={{item.url}}">
                     <view class="boxPic">
                         <image src="{{item.picUrl}}"/>
                         <image src="{{item.icon}}" class="icon {{item.icon ? 'show' : 'hide'}}"/>

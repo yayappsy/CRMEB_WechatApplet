@@ -55,7 +55,7 @@
               </swiper> 
        </view>
     </view>
-    <view class='specialArea acea-row row-between-wrapper' wx:if="{{activityList.length}}">
+    <!--view class='specialArea acea-row row-between-wrapper' wx:if="{{activityList.length}}">
       <block wx:for="{{activityList}}" wx:key='index'>
        <navigator class='assemble' url='{{item.link}}' wx:if="{{index < 1}}">
           <image src='{{item.pic}}'></image>
@@ -76,9 +76,9 @@
             </navigator>
           </block>  
        </view>
-    </view>
+    </view-->
     <view class="liveBroadcast" wx:if='{{liveList.length || liveInfo.roomid}}'>
-        <view class="title">热门直播</view>
+        <!--view class="title">热门直播</view-->
         <!-- end:结束；time：直播时间 -->
         <navigator wx:if='{{liveInfo.roomid}}' hover-class="none" url="plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id={{liveInfo.roomid}}" class="broadcast time">
            <view class="pictrue">
@@ -209,5 +209,11 @@
        <promotionGood benefit="{{benefit}}"></promotionGood>
     </view>
 </view>
+<import src="/wxParse/wxParse.wxml"/>
+<!--view class='eleContainer' wx:for="{{showPics}}" wx:key>
+  <view class='picture'>
+    <image src='{{item.url}}'></image>
+  </view>
+</view-->
 <coupon-window window='{{window}}' couponList="{{couponList}}" bind:onColse="onColse"></coupon-window>
 <home></home>

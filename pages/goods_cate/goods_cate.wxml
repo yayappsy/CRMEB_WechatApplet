@@ -20,17 +20,25 @@
                 <view class='name'>{{item.cate_name}}</view>
                 <view class='line'></view>
             </view>
-            <view class='list acea-row'>
-                <block wx:for="{{item.children}}" wx:for-item="item" wx:key='index'>
-                    <navigator hover-class='none' url='/pages/goods_list/goods_list?sid={{item.id}}&title={{item.cate_name}}' class='item acea-row row-column row-middle'>
-                        <view class='picture'><image src='{{item.pic}}'></image></view>
-                        <view class='name line1'>{{item.cate_name}}</view>
-                    </navigator>
-                </block>
-              </view>
+            <!--view class='list acea-row'>
+              <block wx:for="{{item.children}}" wx:for-item="item" wx:key='index'>
+                  <navigator hover-class='none' url='/pages/goods_list/goods_list?sid={{item.id}}&title={{item.cate_name}}' class='item acea-row row-column row-middle'>
+                      <view class='picture'><image src='{{item.pic}}'></image></view>
+                      <view class='name line1'>{{item.cate_name}}</view>
+                  </navigator>
+              </block>
+            </view-->
+            <goodList bastList="{{bastList}}" wx:if="{{bastList.length > 0}}"></goodList>
+            <view class='loadingicon acea-row row-center-wrapper' wx:if='{{bastList.length > 0}}'>
+              加载完毕
+            </view>
           </view>
+
         </block>
-        <view style='height:{{height-300}}rpx;' wx:if='{{number<15}}'></view>
+        <!--view style='height:{{height-300}}rpx;' wx:if='{{number<15}}'></view-->
+        <view class='loadingicon acea-row row-center-wrapper' wx:if='{{bastList.length < 1}}'>
+          未发现分类产品
+        </view>
     </scroll-view>
    </view>
 </view>

@@ -41,6 +41,11 @@ Page({
     selfLatitude: '',
     liveList: [],
     liveInfo:{},
+    showPics: [
+    {name:'3',url:"https://img.zhichiwangluo.com/zcimgdir/thumb/t_15600382175cfc4b49925de.jpg"},
+    {name:'2',url:"https://img.zhichiwangluo.com/zcimgdir/thumb/t_15817505875e47993b6c893.jpg"},
+    {name:'1',url:"https://img.zhichiwangluo.com/zcimgdir/thumb/t_15578400305cdac09e9236d.jpg"},
+    ]
   },
   closeTip:function(){
     wx.setStorageSync('msg_key',true);

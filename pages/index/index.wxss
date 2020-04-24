@@ -100,6 +100,7 @@ margin-left:10rpx;}
 .index .liveBroadcast .broadcast.end .label{background:linear-gradient(270deg,rgba(153,153,153,1) 0%,rgba(102,102,102,1) 100%);}
 .index .liveBroadcast .broadcast.time .label{background:linear-gradient(315deg,rgba(24,192,244,1) 0%,rgba(26,163,246,1) 100%);}
 
+.eleContainer .picture image{width:92%;border-radius:10rpx;position:relative;margin: 25rpx 25rpx 25rpx 25rpx;}
 
 
 

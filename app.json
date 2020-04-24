@@ -63,7 +63,8 @@
     "components/home/index",
     "components/write-off/index",
     "components/price-change/index",
-    "components/general-window/index"
+    "components/general-window/index",
+    "pages/video_play/play"
   ],
   "subPackages": [
     {
@@ -128,8 +129,8 @@
       },
       {
         "pagePath": "pages/live/live",
-        "iconPath": "images/3-001.png",
-        "selectedIconPath": "images/3-002.png",
+        "iconPath": "images/live-icon.png",
+        "selectedIconPath": "images/live-icon.png",
         "text": "直播"
       },
       {
