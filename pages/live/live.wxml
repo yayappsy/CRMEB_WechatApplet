@@ -32,7 +32,7 @@
     <view class="list-flex">
         <block wx:for="{{videoList}}" wx:key>
             <view class="listBox">
-                <navigator url="../video_play/play?name={{item.url}}">
+                <navigator url='../video_play/play?url={{item.url}}&name={{item.name}}'>
                     <view class="boxPic">
                         <image src="{{item.picUrl}}"/>
                         <image src="{{item.icon}}" class="icon {{item.icon ? 'show' : 'hide'}}"/>

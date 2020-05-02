@@ -22,7 +22,7 @@
             </view>
             <!--view class='list acea-row'>
               <block wx:for="{{item.children}}" wx:for-item="item" wx:key='index'>
-                  <navigator hover-class='none' url='/pages/goods_list/goods_list?sid={{item.id}}&title={{item.cate_name}}' class='item acea-row row-column row-middle'>
+                  <navigator hover-class='none' url='/pages/sub_user/goods_list/goods_list?sid={{item.id}}&title={{item.cate_name}}' class='item acea-row row-column row-middle'>
                       <view class='picture'><image src='{{item.pic}}'></image></view>
                       <view class='name line1'>{{item.cate_name}}</view>
                   </navigator>

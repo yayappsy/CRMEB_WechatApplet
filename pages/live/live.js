@@ -17,12 +17,8 @@ Page({
     liveList: [],
     liveInfo: {},
     videoList: [
-      { name: '元气少女',desc:'from bilbibli', url: 'v.youku.com', picUrl: 'https://i0.hdslb.com/bfs/live/new_room_cover/9f41d4f0375cca2bdaa35c6c175b040ae39e5d0c.jpg@257w_145h_1c_100q.webp' },
-      { name: '街头惊现民乐蹦迪【加速版极乐净土·扬琴】这还是你认识的民乐吗', desc: 'hhh', url: 'BV1Et4y127Ue', picUrl: 'http://i0.hdslb.com/bfs/archive/5f5e0bf7ba41256627a1418406aa915f07fd7443.jpg@200w_125h.jpg' },
-      { name: '视频3', desc: '3', url: 'BV19s411N7aW', picUrl: 'http://i1.hdslb.com/bfs/archive/8efd7e5c2173019b819b65bd8b1578531be4ad56.jpg@200w_125h.jpg' },
-      { name: '视频4', desc: '4', url: 'BV1L5411t7JE', picUrl: '//i0.hdslb.com/bfs/archive/4396d31019a79575e06a6f32e9b2c66c4f0f13e8.jpg@200w_125h.jpg' },
-      { name: '视频5', desc: '5', url: 'BV19C4y1p7yn', picUrl: '//i0.hdslb.com/bfs/archive/845f1397cb8d58d34b77e53c784ce1942f597d37.jpg@200w_125h.jpg' },
-      { name: '视频6', desc: '6', url: 'BV1p4411P75p', picUrl: '//i2.hdslb.com/bfs/archive/91b39b082e5ff87d5819b9e0515241431b0e88e7.jpg@200w_125h.jpg' }
+      { name: '寻蜜陕西', desc: '寻蜜人生食品旗舰店', url: 'u2f82j573nxfy3rcnodxr4vt4qhb1xye.mp4', picUrl:'../../images/video_pic.png'  },
+      { name: '寻蜜西双版纳', desc: '寻蜜人生食品旗舰店', url: '9ifsxrm9d741t6ywko8l03va6u0r52dr.mp4', picUrl: '../../images/video_pic.png' },
     ]
   },
 
@@ -44,6 +40,7 @@ Page({
 
     })
   },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

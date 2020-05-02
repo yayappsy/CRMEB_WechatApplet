@@ -100,7 +100,7 @@ Page({
 
   searchSubmitValue: function (e) {
     if (e.detail.value.length > 0) 
-      wx.navigateTo({ url: '/pages/goods_list/goods_list?searchValue=' + e.detail.value})
+      wx.navigateTo({ url: '/pages/sub_user/goods_list/goods_list?searchValue=' + e.detail.value})
     else 
       return app.Tips({ title:'请填写要搜索的产品信息'});
   },

@@ -1,46 +1,27 @@
-// pages/video_play/play.js
+// pages/user/pages/video_play/play.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    parameter: {
-      'navbar': '1',
-      'return': '1',
-      'title': '',
-      'color': false
-    },
-    name: '暂时没有视频',
-    url : ''
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (params) {
-    console.log(params)
-    let name = params.name || this.data.name;
-    let url = params.url || ''
+  onLoad: function (options) {
 
-    this.setData({
-      name: name,
-      url: url
-    })
-    console.log('nnnnnnn',name);
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    wx.setNavigationBarTitle({
-      title: this.data.name
-    })
+
   },
-  videoErrorCallback: function (e) {
-    console.log(e);
-  },
+
   /**
    * 生命周期函数--监听页面显示
    */

@@ -5,9 +5,7 @@
     "pages/order_details/index",
     "pages/user_sgin/index",
     "pages/user/user",
-    "pages/user_get_coupon/index",
     "pages/order_confirm/index",
-    "pages/goods_list/goods_list",
     "pages/user_coupon/index",
     "pages/goods_comment_list/index",
     "pages/user_goods_collection/index",
@@ -46,7 +44,6 @@
     "pages/order_cancellation/index",
     "pages/commission_rank/index",
     "pages/promoter_rank/index",
-    "pages/live/live",
     "components/navbar/index",
     "components/recommend/index",
     "components/share-red-packets/index",
@@ -64,7 +61,8 @@
     "components/write-off/index",
     "components/price-change/index",
     "components/general-window/index",
-    "pages/video_play/play"
+    "pages/live/live"
+    
   ],
   "subPackages": [
     {
@@ -83,7 +81,7 @@
       ],
       "plugins": {
         "live-player-plugin": {
-          "version": "1.0.7",
+          "version": "1.0.8",
           "provider": "wx2b03c6e691cd7370"
         }
       }
@@ -100,6 +98,14 @@
         "order_statistics/index",
         "order_statistics_time/index"
       ]
+    },
+    {
+      "root": "pages/sub_user",
+      "name": "sub_user",
+      "pages": [
+        "user_get_coupon/index",
+        "goods_list/goods_list"
+      ]
     }
   ],
   "window": {
@@ -112,37 +118,37 @@
   "tabBar": {
     "backgroundColor": "#ffffff",
     "color": "#282828",
-    "selectedColor": "#e93323",
+    "selectedColor": "#282828",
     "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",
         "iconPath": "images/1-001.png",
-        "selectedIconPath": "images/1-002.png",
+        "selectedIconPath": "images/1-002_2.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/goods_cate/goods_cate",
         "iconPath": "images/2-001.png",
-        "selectedIconPath": "images/2-002.png",
+        "selectedIconPath": "images/2-002_2.png",
         "text": "分类"
       },
       {
         "pagePath": "pages/live/live",
         "iconPath": "images/live-icon.png",
-        "selectedIconPath": "images/live-icon.png",
+        "selectedIconPath": "images/live-icon-new.png",
         "text": "直播"
       },
       {
         "pagePath": "pages/order_addcart/order_addcart",
         "iconPath": "images/3-001.png",
-        "selectedIconPath": "images/3-002.png",
+        "selectedIconPath": "images/3-002_2.png",
         "text": "购物车"
       },
       {
         "pagePath": "pages/user/user",
         "iconPath": "images/4-001.png",
-        "selectedIconPath": "images/4-002.png",
+        "selectedIconPath": "images/4-002_2.png",
         "text": "我的"
       }
     ]

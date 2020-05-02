@@ -87,7 +87,7 @@
               <view class="label" wx:if='{{liveInfo.live_status == 103}}'><text class="iconfont icon-zhibojieshux"></text>已结束</view>
               <view class="label" wx:if='{{liveInfo.live_status == 102}}'><text class="iconfont icon-shijian"></text>直播时间 {{liveInfo._start_time}}</view>
            </view>
-           <view class="text line1">{{liveInfo.name}}</view>
+           <!--view class="text line1">{{liveInfo.name}}</view-->
         </navigator>
         <view class="list" wx:if="{{liveList.length}}">
            <scroll-view class="scroll-view_x" scroll-x style="width:auto;overflow:hidden;">
@@ -104,17 +104,17 @@
         </view>
     </view>
     <view class='wrapper' wx:if="{{fastList.length}}">
-       <view class='title acea-row row-between-wrapper'>
+       <!--view class='title acea-row row-between-wrapper'>
           <view class='text'>
              <view class='name line1'>快速选择</view>
              <view class='line1'>{{fastInfo}}</view>
           </view>
           <navigator class='more' url='/pages/goods_cate/goods_cate' open-type='switchTab'>更多<text class='iconfont icon-jiantou'></text></navigator>
-       </view>
+       </view-->
        <view class='scroll-product'>
           <scroll-view class="scroll-view_x" scroll-x style="width:auto;overflow:hidden;">
               <block wx:for="{{fastList}}" wx:key='index'>
-                 <navigator hover-class="none" class='item' url='/pages/goods_list/goods_list?sid={{item.id}}&title={{item.cate_name}}'>
+                 <navigator hover-class="none" class='item' url='/pages/sub_user/goods_list/goods_list?sid={{item.id}}&title={{item.cate_name}}'>
                     <view class='img-box'>
                       <image src='{{item.pic}}'></image>
                     </view>
@@ -125,13 +125,13 @@
         </view>
     </view>
      <view class='wrapper' wx:if="{{bastList.length}}">
-       <view class='title acea-row row-between-wrapper'>
+       <!--view class='title acea-row row-between-wrapper'>
           <view class='text'>
              <view class='name line1'>精品推荐</view>
              <view class='line1'>{{bastInfo}}</view>
           </view>
           <navigator class='more' hover-class="none" url='/pages/first-new-product/index?type=1'>更多<text class='iconfont icon-jiantou'></text></navigator>
-       </view>
+       </view-->
        <view class='boutique'>
             <swiper  autoplay="true"  indicator-dots="true"
                  circular="{{circular}}" interval="{{interval}}" duration="{{duration}}" indicator-color="rgba(252,65,65,0.3)" indicator-active-color="#fc4141">
@@ -146,7 +146,7 @@
        </view>
        <goodList bastList="{{bastList}}"></goodList>
     </view>
-    <view class='hotList' wx:if="{{likeInfo.length}}">
+    <!--view class='hotList' wx:if="{{likeInfo.length}}">
        <view class='hot-bg'>
           <view class='title acea-row row-between-wrapper'>
             <view class='text line1'><text class='label'>热门榜单</text>根据销量、搜索、好评等综合得出</view>
@@ -167,8 +167,8 @@
             </navigator>
           </block>  
        </view>
-    </view>
-    <view class='adver' wx:if="{{newGoodsBananr}}">
+    </view-->
+    <!--view class='adver' wx:if="{{newGoodsBananr}}">
       <block>
         <image src='{{newGoodsBananr}}'></image>
       </block>  
@@ -207,7 +207,66 @@
           <navigator class='more' hover-class="none" url='/pages/promotional-items/index'>更多<text class='iconfont icon-jiantou'></text></navigator>
        </view>
        <promotionGood benefit="{{benefit}}"></promotionGood>
+    </view-->
+    <view class='list'>
+        <view class='title' wx:if="{{articleList.length}}">
+            <view class='text'>
+               <view class='name line1'>--寻蜜故事--</view>
+            </view>
+         </view>
+      <block wx:for="{{articleList}}" wx:key='index'>
+        <navigator url='/pages/news_details/index?id={{item.id}}' hover-class='none' class='item acea-row row-between-wrapper' wx:if="{{item.image_input.length == 1}}">
+           <view class='text acea-row row-column-between'>
+              <view class='name line2'>{{item.title}}</view>
+              <view>{{item.add_time}}</view>
+           </view>
+           <view class='pictrue'><image src='{{item.image_input[0]}}'></image></view>
+        </navigator>
+        <navigator url='/pages/news_details/index?id={{item.id}}' hover-class='none'  class='item' wx:elif="{{item.image_input.length == 2}}">
+           <view class='title line1'>{{item.title}}</view>
+           <view class='picList acea-row row-between-wrapper'>
+             <block wx:for="{{item.image_input}}" wx:key='index' wx:for-item="itemImg">
+              <view class='pictrue'><image src='{{itemImg}}'></image></view>
+             </block> 
+           </view>
+           <view class='time'>{{item.add_time}}</view>
+        </navigator>
+        <navigator url='/pages/news_details/index?id={{item.id}}' hover-class='none'  class='item' wx:elif="{{item.image_input.length > 2}}">
+           <view class='title line1'>{{item.title}}</view>
+           <view class='picList on acea-row row-between-wrapper'>
+             <block wx:for="{{item.image_input}}" wx:key='index' wx:for-item="itemImg">
+              <view class='pictrue'><image src='{{itemImg}}'></image></view>
+             </block> 
+           </view>
+           <view class='time'>{{item.add_time}}</view>
+        </navigator>
+      </block>  
+   </view>
+</view>
+<view class="allProduct">
+  <view class='title' wx:if="{{productList.length}}">
+    <view class='text'>
+       <view class='name line1'>--全部产品--</view>
     </view>
+  </view>
+  <view class="list-flex">
+    <block wx:for="{{productList}}" wx:key>
+      <view class="listBox" bindtap="goDetail" data-items='{{item}}'>
+        <view class="boxPic" >
+          <image src='{{item.image}}'></image>
+        </view>
+        
+        <view class='underline'>
+          <view class='text'>
+            <view class='line1'>{{item.store_name}}</view>
+            <view class='money font-color'>￥<text class='num'>{{item.price}}</text></view>
+            <view class='vip-money acea-row row-middle' wx:if='{{item.vip_price && item.vip_price > 0}}'>￥{{item.vip_price || 0}}<image  src='/images/vip.png'></image></view>
+          </view>
+        </view> 
+        <view class='iconfont icon-gouwuche cart-color acea-row row-center-wrapper'></view>
+      </view>
+    </block>
+  </view>
 </view>
 <import src="/wxParse/wxParse.wxml"/>
 <!--view class='eleContainer' wx:for="{{showPics}}" wx:key>
