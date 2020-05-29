@@ -114,7 +114,7 @@
        <view class='scroll-product'>
           <scroll-view class="scroll-view_x" scroll-x style="width:auto;overflow:hidden;">
               <block wx:for="{{fastList}}" wx:key='index'>
-                 <navigator hover-class="none" class='item' url='/pages/sub_user/goods_list/goods_list?sid={{item.id}}&title={{item.cate_name}}'>
+                 <navigator hover-class="none" class='item' url='/pages/goods_list/goods_list?sid={{item.id}}&title={{item.cate_name}}'>
                     <view class='img-box'>
                       <image src='{{item.pic}}'></image>
                     </view>

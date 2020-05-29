@@ -27,7 +27,7 @@
   </view>
 </view>
 
-<view class="listNews">
+<!--view class="listNews">
     <view class="title">热门视频</view>
     <view class="list-flex">
         <block wx:for="{{videoList}}" wx:key>
@@ -50,4 +50,4 @@
             </view>
         </block>
     </view>
-</view>
+</view-->

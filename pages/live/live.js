@@ -17,8 +17,8 @@ Page({
     liveList: [],
     liveInfo: {},
     videoList: [
-      { name: '寻蜜陕西', desc: '寻蜜人生食品旗舰店', url: 'u2f82j573nxfy3rcnodxr4vt4qhb1xye.mp4', picUrl:'../../images/video_pic.png'  },
-      { name: '寻蜜西双版纳', desc: '寻蜜人生食品旗舰店', url: '9ifsxrm9d741t6ywko8l03va6u0r52dr.mp4', picUrl: '../../images/video_pic.png' },
+      { name: '寻蜜陕西', desc: '寻蜜人生食品旗舰店', url: 'u2f82j573nxfy3rcnodxr4vt4qhb1xye.mp4', picUrl:'https://xunmirenshengfile.xunmirensheng.com/5da48202005021431341460.jpg'  },
+      { name: '寻蜜西双版纳', desc: '寻蜜人生食品旗舰店', url: '9ifsxrm9d741t6ywko8l03va6u0r52dr.mp4', picUrl: 'https://xunmirenshengfile.xunmirensheng.com/a2fdd202005021431347030.jpg' },
     ]
   },
 

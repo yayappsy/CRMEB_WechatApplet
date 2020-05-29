@@ -48,7 +48,7 @@
             </view>
             <view class='pictrue'><image src='/images/gift.png'></image></view>
          </navigator>
-         <navigator class='item on acea-row row-between-wrapper' hover-class='none' url='/pages/sub_user/user_get_coupon/index'>
+         <navigator class='item on acea-row row-between-wrapper' hover-class='none' url='/pages/user_get_coupon/index'>
             <view class='text'>
                <view class='name'>领取优惠券</view>
                <view>满减享优惠</view>

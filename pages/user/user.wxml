@@ -17,7 +17,7 @@
    </view>
    <view class='wrapper'>
       <view class='nav acea-row row-middle'>
-         <view class='item' data-url='/pages/user_money/index' bindtap='goPages'>
+         <view class='item' data-url='/pages/user_money/indexaaa' bindtap='goPages'>
             <view>我的余额</view>
             <view class='num'>{{userInfo.now_money || 0}}</view>
          </view>

@@ -61,7 +61,9 @@
     "components/write-off/index",
     "components/price-change/index",
     "components/general-window/index",
-    "pages/live/live"
+    "pages/live/live",
+    "pages/user_get_coupon/index",
+    "pages/goods_list/goods_list"
     
   ],
   "subPackages": [
@@ -98,14 +100,6 @@
         "order_statistics/index",
         "order_statistics_time/index"
       ]
-    },
-    {
-      "root": "pages/sub_user",
-      "name": "sub_user",
-      "pages": [
-        "user_get_coupon/index",
-        "goods_list/goods_list"
-      ]
     }
   ],
   "window": {
@@ -135,7 +129,7 @@
       },
       {
         "pagePath": "pages/live/live",
-        "iconPath": "images/live-icon.png",
+        "iconPath": "images/live-icon-new.png",
         "selectedIconPath": "images/live-icon-new.png",
         "text": "直播"
       },

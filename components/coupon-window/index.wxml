@@ -17,7 +17,7 @@
       </view>
    </view>
    <view class='lid'>
-      <navigator hover-class='none' url='/pages/sub_user/user_get_coupon/index' class='bnt font-color'>立即领取</navigator>
+      <navigator hover-class='none' url='/pages/user_get_coupon/index' class='bnt font-color'>立即领取</navigator>
       <view class='iconfont icon-guanbi3' bindtap='close'></view>
    </view>
 </view>
