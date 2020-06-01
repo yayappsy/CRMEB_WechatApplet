@@ -1,21 +1,27 @@
 <view class='bargain'>
-<view class='iconfont icon-xiangzuo' wx:if='{{retunTop}}' bindtap='goBack'></view>
+<view class='iconfont icon-xiangzuo' wx:if='{{retunTop}}' bindtap='goBack' style='top:{{navH/2}}rpx'></view>
     <view class="header {{bargainUid != userInfo.uid ? 'on' : ''}}">
-    <view class='people'>{{bargainCount.lookCount}}人查看 丨 {{bargainCount.shareCount}}人分享 丨 {{bargainCount.userCount}}人参与</view>
-        <view class='time font-color' wx:if="{{status == 0 || status == 3 || status == 4 || status == 5}}">
+    <view class='people' style="top:{{navH/2}}rpx">{{bargainCount.lookCount}}人查看 丨 {{bargainCount.shareCount}}人分享 丨 {{bargainCount.userCount}}人参与</view>
+        <view class='time font-color' wx:if="{{bargainUid == userInfo.uid}}">
           倒计时 <text>{{countDownDay}}</text> 天 
           <text>{{countDownHour}}</text> 时 
           <text>{{countDownMinute}}</text> 分 
           <text>{{countDownSecond}}</text> 秒
         </view> 
-        <view wx:elif="{{bargainUid != userInfo.uid }}" class='pictxt acea-row row-center-wrapper'>
+        <view wx:if="{{bargainUid != userInfo.uid }}" class='pictxt acea-row row-center-wrapper'>
             <view class='pictrue'><image src='{{bargainUserInfo.avatar}}'></image></view>
             <view class='text'>{{bargainUserInfo.nickname}}<text>邀请您帮忙砍价</text></view>
         </view>
     </view>
    <view class='wrapper'>
-      <view class='pictxt acea-row row-between-wrapper'>
-         <view class='pictrue'><image src='{{bargainInfo.image}}'></image></view>
+      <view class='pictxt acea-row row-between-wrapper' bindtap="goProduct">
+         <view class='pictrue'>
+            <image src='{{bargainInfo.image}}'></image>
+            <view class="bargain_view">
+               查看商品
+               <text class="iconfont icon-jiantou iconfonts"></text>
+            </view>
+         </view>
          <view class='text acea-row row-column-around'>
             <view class='line2'>{{bargainInfo.title}}</view>
             <view class='money font-color'>当前: ￥<text class='num'>{{bargainInfo.price}}</text></view>
@@ -29,20 +35,25 @@
          <view>已砍{{bargainUserHelpInfo.alreadyPrice}}元</view>
          <view>还剩{{bargainUserHelpInfo.price}}元</view>
       </view>
-      <!-- 帮助砍价、帮砍成功：-->
-      <view wx:if="{{bargainUid == userInfo.uid && bargainUserHelpInfo.price > 0}}">
-        <view class='bargainBnt' bindtap='getBargainUserBargainPricePoster'>邀请好友帮砍价</view>
-      </view>
-      <view wx:elif="{{bargainUid != userInfo.uid}}">
-        <view class='bargainBnt' bindtap='setBargainHelp'>帮好友砍一刀</view>
-      </view>
-      <view wx:if="{{bargainUid != userInfo.uid && isHelp}}">
-        <view class='bargainSuccess'><text class='iconfont icon-xiaolian'></text>已成功帮助好友砍价</view>
-        <view class='bargainBnt on' bindtap='currentBargainUser'>我也要参与</view>
-      </view>
-      <view wx:elif="{{bargainUserHelpInfo.price == 0 &&  bargainUid == userInfo.uid }}">
-        <view class='bargainBnt' bindtap='goPay'>立即支付</view>
-      </view>
+      <!-- 自己砍价 -->
+      <view wx:if="{{bargainUid == userInfo.uid && !userBargainStatus && bargainUserHelpInfo.price > 0}}">
+	<view class='bargainBnt' bindtap='userBargain' wx:if="{{productStock>0&&quota>0}}">立即参与砍价</view>
+	<view class='bargainBnt grey' wx:if="{{productStock<=0||quota<=0}}">立即参与砍价</view>
+</view>
+<!-- 帮助砍价、帮砍成功：-->
+<view wx:if="{{bargainUid == userInfo.uid && bargainUserHelpInfo.price > 0 && userBargainStatus}}">
+	<view class='bargainBnt' bindtap='getBargainUserBargainPricePoster'>邀请好友帮砍价</view>
+</view>
+<view wx:if="{{bargainUid != userInfo.uid && userBargainStatusHelp}}">
+	<view class='bargainBnt' bindtap='setBargainHelp'>帮好友砍一刀</view>
+</view>
+<view wx:if="{{bargainUid != userInfo.uid && !userBargainStatusHelp}}">
+	<view class='bargainSuccess'><text class='iconfont icon-xiaolian'></text>已成功帮助好友砍价</view>
+	<view class='bargainBnt' bindtap='currentBargainUser'>我也要参与</view>
+</view>
+<view wx:if="{{bargainUserHelpInfo.price == 0 &&  bargainUid == userInfo.uid && statusPay!=3}}">
+	<view class='bargainBnt' bindtap='goPay'>立即支付</view>
+</view>
       <view class='bargainBnt on' bindtap='goBargainList'>抢更多商品</view>
       <view class='tip'>已有<text class='font-color'>{{bargainUserHelpInfo.count}}</text> 位好友成功砍价</view>
       <view class='lock'></view>
@@ -54,7 +65,7 @@
          <view class='pictrue on'><image src='/images/left.png'></image></view>
       </view>
       <view class='list'>
-        <block wx:for="{{bargainUserHelpList}}" wx:key> 
+        <block wx:for="{{bargainUserHelpList}}" wx:key='index'> 
           <view class='item acea-row row-between-wrapper'>
              <view class='pictxt acea-row row-between-wrapper'>
                 <view class='pictrue'><image src='{{item.avatar}}'></image></view>

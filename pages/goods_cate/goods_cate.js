@@ -1,4 +1,5 @@
-import { getCategoryList} from '../../api/store.js';
+import { getCategoryList,getProductslist} from '../../api/store.js';
+
 
 const app = getApp();
 Page({
@@ -8,20 +9,24 @@ Page({
   data: {
     navlist: [],
     productList: [],
+    bastList:[],
     navActive: 0,
     parameter: {
       'navbar': '1',
-      'return': '0',
+      'return': '1',
       'title':'产品分类'
     },
     navH:"",
-    number:""
+    number:"",
+    limit: 100,
+    page:1
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (res) {
     this.getAllCategory();
+    
   },
   infoScroll:function(){
     let that = this;
@@ -99,6 +104,20 @@ Page({
     else 
       return app.Tips({ title:'请填写要搜索的产品信息'});
   },
+
+  getIndexGroomList: function () {
+    var that = this;
+    getProductslist({
+      page: this.data.page,
+      limit: this.data.limit
+    }).then(res=>{
+      var list = res.data
+      that.data.bastList = app.SplitArray(list, that.data.bastList);
+      that.setData({
+        bastList: that.data.bastList,
+      });
+    });
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -109,7 +128,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getIndexGroomList();
   },
 
   /**

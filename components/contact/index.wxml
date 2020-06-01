@@ -1,7 +1,6 @@
 <!--components/contact/index.wxml-->
-<view class='contact' style=" top:{{top*2}}rpx;">
-   <button class='item' open-type='contact' hover-class='none'>
-      <view class='pictrue'><image src='/images/contact.gif'></image></view>
-    </button>
-</view>
+<button class='item' open-type='contact' hover-class='none'>
+  <view class='pictrue'><image src='/images/customer.png'></image></view>
+</button>
+
 

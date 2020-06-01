@@ -3,7 +3,7 @@
    <view class='iconfont icon-xiangzuo' bindtap='goBack' style='top:{{navH/2}}rpx'></view>
    <view class='header'></view>
    <view class='list'>
-      <block wx:for="{{bargainList}}" wx:key>
+      <block wx:for="{{bargainList}}" wx:key='index'>
         <view data-url='/pages/activity/goods_bargain_details/index?id={{item.id}}&bargain={{userInfo.uid}}' class='item acea-row row-between-wrapper' hover-class='none' bindtap="openSubscribe">
           <view class='pictrue'><image src='{{item.image}}'></image></view>
           <view class='text acea-row row-column-around'>

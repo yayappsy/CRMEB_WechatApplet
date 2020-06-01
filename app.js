@@ -84,7 +84,7 @@ App({
     isLog:false,
     expiresTime:0,
     MyMenus:[],
-    userInfo: { 'nickName': '邓杰', 'avatar': './images/logo.png' },
+    userInfo:{},
     loginType:'routine'
   },
   /**

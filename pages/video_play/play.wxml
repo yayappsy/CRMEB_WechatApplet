@@ -1,0 +1,6 @@
+<!--pages/video_play/play.wxml-->
+<navbar parameter='{{parameter}}'></navbar>
+<view class="play">
+    <video src="https://xunmirenshengfile.oss-cn-beijing.aliyuncs.com/{{url}}" binderror='videoErrorCallback'></video>
+    <view class="videoName v">{{name}}</view>
+</view>

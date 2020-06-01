@@ -2,7 +2,7 @@
 <view class='group-list'>
    <view class='header'></view>
    <view class='list'>
-      <block wx:for="{{combinationList}}" wx:key>
+      <block wx:for="{{combinationList}}" wx:key='index'>
         <view class='item acea-row row-between-wrapper' bindtap="openSubcribe" data-url='/pages/activity/goods_combination_details/index?id={{item.id}}'>
           <view class='pictrue'><image src='{{item.image}}'></image></view>
           <view class='text'>

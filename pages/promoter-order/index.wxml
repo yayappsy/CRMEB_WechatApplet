@@ -10,14 +10,14 @@
         </view>
     </view>
     <view class='list'>
-      <block wx:for="{{recordList}}" wx:key>
+      <block wx:for="{{recordList}}" wx:key='index'>
        <view class='item'>
           <view class='title acea-row row-column row-center'>
              <view class='data'>{{item.time}}</view>
              <view>本月累计推广订单：{{item.count || 0}}单</view>
           </view>
           <view class='listn'>
-            <block wx:for="{{item.child}}" wx:for-item="child" wx:key> 
+            <block wx:for="{{item.child}}" wx:for-item="child" wx:key='index'> 
              <view class='itenm'>
                 <view class='top acea-row row-between-wrapper'>
                    <view class='pictxt acea-row row-between-wrapper'>

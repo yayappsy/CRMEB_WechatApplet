@@ -9,7 +9,7 @@
    </view>
    <view class='title'>热门搜索</view>
    <view class='list acea-row'>
-     <block wx:for="{{hotSearchList}}" wx:key>
+     <block wx:for="{{hotSearchList}}" wx:key='index'>
       <view class='item' bindtap='setHotSearchValue' data-item="{{item}}">{{item}}</view>
      </block> 
    </view>

@@ -1,7 +1,7 @@
 // pages/group-list/index.js
 import { getCombinationList } from '../../../api/activity.js';
 import { openPinkSubscribe } from '../../../utils/SubscribeMessage.js';
-var app = getApp();
+
 Page({
 
   /**

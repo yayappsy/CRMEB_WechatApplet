@@ -1,18 +1,44 @@
 // pages/live/live.js
+const app = getApp();
+
+import { getIndexData, getCoupons, getTemlIds, getLiveList } from '../../api/api.js';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    parameter: {
+      'navbar': '1',
+      'return': '1',
+      'title': '直播视频',
+      'color': false
+    },
+    liveList: [],
+    liveInfo: {},
+    videoList: [
+      { name: '寻蜜陕西', desc: '寻蜜人生食品旗舰店', url: 'u2f82j573nxfy3rcnodxr4vt4qhb1xye.mp4', picUrl:'https://xunmirenshengfile.xunmirensheng.com/5da48202005021431341460.jpg'  },
+      { name: '寻蜜西双版纳', desc: '寻蜜人生食品旗舰店', url: '9ifsxrm9d741t6ywko8l03va6u0r52dr.mp4', picUrl: 'https://xunmirenshengfile.xunmirensheng.com/a2fdd202005021431347030.jpg' },
+    ]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getLiveList();
+  },
 
+  getLiveList: function () {
+    getLiveList(1, 20).then(res => {
+      if (res.data.length == 1) {
+        this.setData({ liveInfo: res.data[0] });
+      } else {
+        this.setData({ liveList: res.data });
+      }
+    }).catch(res => {
+
+    })
   },
 
   /**
@@ -26,7 +52,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**
